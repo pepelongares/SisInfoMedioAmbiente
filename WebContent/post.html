@@ -17,10 +17,10 @@
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
-
+	
   </head>
 
   <body>
@@ -42,10 +42,37 @@
               <a class="nav-link" href="about.html" style="color:#000000;">Respuestas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="post.html" style="color:#000000;">Iniciar Sesion</a>
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" style="color:#000000;">Iniciar Sesion<span class="caret"></span></a>
+			  <ul id="login-dp" style="left: 70%;" class="dropdown-menu">
+				<li>
+					 <div class="row">
+							<div class="col-md-10 offset-md-1">
+								 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+										<div class="form-group">
+											 <label class="sr-only" for="exampleInputEmail2">Usuario/Email</label>
+											 <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" required>
+										</div>
+										<div class="form-group">
+											 <label class="sr-only" for="exampleInputPassword2">Contraseña</label>
+											 <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Contraseña" required>
+                                             <div class="help-block text-right"><a href="">Has olvidado la contraseña?</a></div>
+										</div>
+										<div class="form-group">
+											 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+										</div>
+										<div class="checkbox">
+											 <label>
+											 <input type="checkbox"> Mantener la sesión
+											 </label>
+										</div>
+								 </form>
+							</div>
+					 </div>
+				</li>
+			</ul>
             </li>
 			<li class="nav-item">
-              <a class="nav-link" href="post.html" style="color:#000000;">Registro</a>
+              <a class="nav-link" href="register.html" style="color:#000000;">Registro</a>
             </li>
           </ul>
         </div>
@@ -85,23 +112,46 @@
 			<p>Francia e Italia disponen de un marco legal que impide que los supermercados tiren a la basura alimentos.</p>
 			
 
-            <h2 class="section-heading">The Final Frontier</h2>
+            <h2 class="section-heading">Cuestionario sobre el medio ambiente</h2>
+			<p> Como crees que la humanidad podría mejorar el medio ambiente?: </p>
+			<div class="radio">
+			  <label><input type="radio" name="optradio">  Tirando la basura al suelo</label>
+			</div>
+			<div class="radio">
+			  <label><input type="radio" name="optradio">  No reciclando</label>
+			</div>
+			<div class="radio disabled">
+			  <label><input type="radio" name="optradio">  Separar la basura y poner bombillas de bajo consumo</label>
+			</div></br>
+			<input class="btn btn-primary" type="submit" value="Enviar">
+			
+			<h2 class="section-heading">Danos tu opinión</h2>
+			<p> Crees que se desperdicia mucha comida en España?: </p>
+			<div class="radio">
+			  <label><input type="radio" name="optradio">  Si</label>
+			</div>
+			<div class="radio">
+			  <label><input type="radio" name="optradio">  No</label>
+			</div></br>
+			<input class="btn btn-primary" type="submit" value="Enviar">
+			
+			<h2 class="section-heading">Vamos a por el reto</h2>
+			<p>El consumo de agua en los grifos del lavabo, en la cocina y en la ducha supone alrededor del 55% del total consumido en el hogar. 
+			Utilizando grifos y cabezales de ducha con dispositivos ahorradores podrás consegir un ahorro de hasta un 50% de agua.</p>
+			<p>Adquiere uno y compruébalo tu mismo!</p>
+			
+			<h2 class="section-heading">Consejo medioambiental!</h2>
+			<p>Sabías que...La energía que producen las pilas es más de 600 veces más cara que la de la red.</p>
+			<p>Por eso, intenta conectar los aparatos a la red siempre que esto sea posible. Si te es impresicindible
+			   usar pilas, procura que sean recargables.</p>
 
-            <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+			<h4 class="section-heading" style="font-size: 25px;">Si te ha gustado la noticia, comparte!</h4></br>
+			<!-- Compartir -->
 
-            <p>There can be no thought of finishing for ‘aiming for the stars.’ Both figuratively and literally, it is a task to occupy the generations. And no matter how much progress one makes, there is always the thrill of just beginning.</p>
+			<a target="_blank" alt="Compartir en Facebook" href="https://www.facebook.com/sharer/sharer.php?u=http://www.google.es" rel="nofollow"><img src="https://static.tumblr.com/omgciym/nIWp60bqo/fb_boton.png" alt="Compartir en Facebook" width="89"/></a>
 
-            <blockquote class="blockquote">Cosas en gris</blockquote>
-
-
-            <h2 class="section-heading">Nueva seccion</h2>
-
-            <p>As we got further and further away, it [the Earth] diminished in size. Finally it shrank to the size of a marble, the most beautiful you can imagine. That beautiful, warm, living object looked so fragile, so delicate, that if you touched it with a finger it would crumble and fall apart. Seeing this has to change a man.</p>
-
-            <a href="#">
-              <img class="img-fluid" src="img/post-sample-image.jpg" alt="">
-            </a>
-            <span class="caption text-muted">Encabezado de la imagen.</span>
+			<a target="_blank" alt="Twittear" href="https://twitter.com/intent/tweet?text=Me%20gust%C3%B3%20esta%20entrada:%20&url=http://www.google.es" target="Blank_" rel="nofollow"><img src="https://static.tumblr.com/omgciym/3mip60br0/tw_boton.png" alt="Compartir en Twitter" width="89"/></a>
+			  
 
             <p>Entrada escrita por
               <a href="http://spaceipsum.com/">Alumno 1</a>. Photographs by

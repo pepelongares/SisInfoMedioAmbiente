@@ -42,7 +42,34 @@
               <a class="nav-link" href="about.html">Respuestas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="post.html">Iniciar Sesion</a>
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Iniciar Sesion<span class="caret"></span></a>
+			  <ul id="login-dp" style="left: 70%;" class="dropdown-menu">
+				<li>
+					 <div class="row">
+							<div class="col-md-10 offset-md-1">
+								 <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+										<div class="form-group">
+											 <label class="sr-only" for="exampleInputEmail2">Usuario/Email</label>
+											 <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" required>
+										</div>
+										<div class="form-group">
+											 <label class="sr-only" for="exampleInputPassword2">Contraseña</label>
+											 <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Contraseña" required>
+                                             <div class="help-block text-right"><a href="">Has olvidado la contraseña?</a></div>
+										</div>
+										<div class="form-group">
+											 <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+										</div>
+										<div class="checkbox">
+											 <label>
+											 <input type="checkbox"> Mantener la sesión
+											 </label>
+										</div>
+								 </form>
+							</div>
+					 </div>
+				</li>
+			</ul>
             </li>
 			<li class="nav-item">
               <a class="nav-link" href="register.html">Registro</a>
@@ -53,7 +80,7 @@
     </nav>
 
     <!-- Page Header -->
-    <header class="masthead" style="background-image: url('img/home-bg.jpg')">
+    <header class="masthead" style="background-image: url('img/fondoPrincipal.jpg')">
       <div class="overlay"></div>
       <div class="container">
         <div class="row">
