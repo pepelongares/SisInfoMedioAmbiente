@@ -229,11 +229,11 @@
 			var email = document.getElementById("emailLogin");
 			var pass = document.getElementById("passWordLogin");
 			if( (email.value).localeCompare("profesor@unizar.es") == 0 && (pass.value).localeCompare("unizar") == 0){
-				console.log("-----------------------------------");
 				window.open("profesor.html","_self");	
 			}else if( (email.value).localeCompare("alumno@unizar.es") == 0 && (pass.value).localeCompare("unizar") == 0){
-				console.log("+++++++++++++++++++++++++++++++++++");
 				window.open("alumno.html","_self");	
+			}else if((email.value).localeCompare("admin@admin.es") == 0 && (pass.value).localeCompare("admin") == 0){
+				window.open("admin.html","_self");
 			}else{
 				location.href = "index.html";
 			}
