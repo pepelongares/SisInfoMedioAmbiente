@@ -47,18 +47,18 @@
 				<li>
 					 <div class="row">
 							<div class="col-md-10 offset-md-1">
-								 <form class="form" role="form" method="post" accept-charset="UTF-8" id="login-nav">
+								 <form class="form" role="form" accept-charset="UTF-8" id="login-nav" novalidate>
 										<div class="form-group">
 											 <label class="sr-only" for="exampleInputEmail2">Usuario/Email</label>
-											 <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email" required>
+											 <input type="email" class="form-control" id="emailLogin" placeholder="Email">
 										</div>
 										<div class="form-group">
 											 <label class="sr-only" for="exampleInputPassword2">Contraseña</label>
-											 <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Contraseña" required>
+											 <input type="password" class="form-control" id="passWordLogin" placeholder="Contraseña">
                                              <div class="help-block text-right"><a href="">Has olvidado la contraseña?</a></div>
 										</div>
 										<div class="form-group">
-											 <button onclick="clickSesion()" type="submit" class="btn btn-primary btn-block">Iniciar sesion</button>
+											 <button type="button" class="btn btn-primary btn-block" onClick="clickSesion()">Iniciar sesion</button>
 										</div>
 										<div class="checkbox">
 											 <label>
@@ -221,19 +221,21 @@
 	
 	<!-- Pequeño script para cambiar de pagina segun rol -->
 	<script>
+		
+		document.getElementById("login-nav").addEventListener("submit", clickSesion);
+	
 		function clickSesion() {
 			// Leemos el valor del email de iniciar sesion
-			var email = document.getElementById("exampleInputEmail2");
-			var pass = document.getElementById("exampleInputPassword2");
+			var email = document.getElementById("emailLogin");
+			var pass = document.getElementById("passWordLogin");
 			if( (email.value).localeCompare("profesor@unizar.es") == 0 && (pass.value).localeCompare("unizar") == 0){
-				console.log("Login Profesor");
-				//window.open("profesor.html","_self");
-			}
-			else if( (email.value).localeCompare("alumno@unizar.es") == 0 && (pass.value).localeCompare("unizar") == 0){
-				console.log("Login Alumno");
-				//window.open("alumno.html","_self");
+				console.log("-----------------------------------");
+				window.open("profesor.html","_self");	
+			}else if( (email.value).localeCompare("alumno@unizar.es") == 0 && (pass.value).localeCompare("unizar") == 0){
+				console.log("+++++++++++++++++++++++++++++++++++");
+				window.open("alumno.html","_self");	
 			}else{
-				//window.open("index.html","_self");
+				location.href = "index.html";
 			}
 		}
 	
