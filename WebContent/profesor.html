@@ -122,23 +122,43 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <td>John Lilki</td>
-                                    <td>September 14, 2013</td>
-                                    <td><a href="post.html">La contaminación acustica</a></td>
-                                    <td>50 personas</td>
-
+                                    <td class="align-middle">John Lilki</td>
+                                    <td class="align-middle">September 14, 2013</td>
+                                    <td class="align-middle"><a href="post.html">La contaminación acustica</a></td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="lg-1 offset-lg-2" id="piechart1"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="lg-1 offset-lg-2" id="piechart11"></div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>John Lilki</td>
-                                    <td>September 14, 2013</td>
-                                    <td><a href="post.html">La contaminación acustica</a></td>
-                                    <td>50 personas</td>
+                                    <td class="align-middle">John Lilki</td>
+                                    <td class="align-middle">September 14, 2013</td>
+                                    <td class="align-middle"><a href="post.html">La contaminación acustica</a></td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="lg-1 offset-lg-2" id="piechart2"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="lg-1 offset-lg-2" id="piechart22"></div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>John Lilki</td>
-                                    <td>September 14, 2013</td>
-                                    <td><a href="post.html">La contaminación acustica</a></td>
-                                    <td>50 personas</td>
+                                    <td class="align-middle">John Lilki</td>
+                                    <td class="align-middle">September 14, 2013</td>
+                                    <td class="align-middle"><a href="post.html">La contaminación acustica</a></td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="lg-1 offset-lg-2" id="piechart3"></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="lg-1 offset-lg-2" id="piechart33"></div>
+                                        </div>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -220,6 +240,55 @@
         }
 
     </script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+            var data1 = google.visualization.arrayToDataTable([
+                ['Acierto/Fallo', 'Numero'],
+                ['Aciertos',     20],
+                ['Fallos',    5]
+            ]);
+
+            var data2 = google.visualization.arrayToDataTable([
+                ['Acierto/Fallo', 'Numero'],
+                ['Aciertos',     10],
+                ['Fallos',    8]
+            ]);
+
+            var data3 = google.visualization.arrayToDataTable([
+                ['Acierto/Fallo', 'Numero'],
+                ['Aciertos',     5],
+                ['Fallos',    13]
+            ]);
+
+
+            var options = {
+                title: ''
+            };
+
+            var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
+            var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
+            var chart3 = new google.visualization.PieChart(document.getElementById('piechart3'));
+            var chart11 = new google.visualization.PieChart(document.getElementById('piechart11'));
+            var chart22 = new google.visualization.PieChart(document.getElementById('piechart22'));
+            var chart33 = new google.visualization.PieChart(document.getElementById('piechart33'));
+
+            chart1.draw(data1, options);
+            chart2.draw(data2, options);
+            chart3.draw(data3, options);
+            chart11.draw(data3, options);
+            chart22.draw(data1, options);
+            chart33.draw(data2, options);
+        }
+    </script>
+
+
 
 </div>
 </body>
