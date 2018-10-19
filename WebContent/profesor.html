@@ -1,283 +1,214 @@
-<html lang="es">
+<!DOCTYPE html>
+<html>
 
-<head>
+  <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Profesor</title>
+    <title>Problemas medioambientales</title>
 
-    <!-- Bootstrap core CSS-->
+    <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom fonts for this template-->
+    <!-- Custom fonts for this template -->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
-    <!-- Page level plugin CSS-->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="css/clean-blog.min.css" rel="stylesheet">
+	
+  </head>
 
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin.css" rel="stylesheet">
+  <body>
 
-</head>
-
-<body id="page-top">
-
-    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-
-        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-            <i class="fas fa-bars"></i>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Universidad de Zaragoza</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
         </button>
-
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">Respuestas</a>
+            </li>
+			<li class="nav-item">
+              <a class="nav-link" href="profesorAdmin.html"><i class="fas fa-toolbox"></i>  Administrar</a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
 
-
-    <div id="wrapper">
-
-        <!-- Sidebar -->
-        <ul class="sidebar navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>REGRESO AL INICIO</span>
-                </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>Administrar</span>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                    <a class="dropdown-item" href="#" onclick="moderarCarteles()">Moderar carteles</a>
-                    <a class="dropdown-item" href="#" onclick="mostrarBaja()">Estadísticas</a>
-                </div>
-            </li>
-        </ul>
-
-        <div id="content-wrapper">
-
-            <div class="container-fluid">
-
-                <!-- Principal-->
-                <div class="row" id="principal">
-
-                    <!-- Panel de administración de carteles -->
-                    <main class="container pt-5" id="adminCarteles" style="display:none;" >
-                        <div class="card mb-5" >
-                            <div class="card-header">Carteles por moderar</div>
-                            <div class="card-block p-0">
-                                <table class="table table-bordered table-sm m-0">
-                                    <thead class="">
-                                    <tr>
-                                        <th>Alumno</th>
-                                        <th>Fecha</th>
-                                        <th>Cartel</th>
-                                        <th></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>John Lilki</td>
-                                        <td>September 14, 2013</td>
-                                        <td><a href="post.html">La contaminación acustica</a></td>
-                                        <td width="20%"><div class="text-center"><button class="btn btn-success">VALIDAR</button>&nbsp<button class="btn btn-danger">DENEGAR</button></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td>John Lilki</td>
-                                        <td>September 14, 2013</td>
-                                        <td><a href="post.html">La contaminación acustica</a></td>
-                                        <td width="20%"><div class="text-center"><button class="btn btn-success">VALIDAR</button>&nbsp<button class="btn btn-danger">DENEGAR</button></div></td>
-                                    </tr>
-                                    <tr>
-                                        <td>John Lilki</td>
-                                        <td>September 14, 2013</td>
-                                        <td><a href="post.html">La contaminación acustica</a></td>
-                                        <td width="20%"><div class="text-center"><button class="btn btn-success">VALIDAR</button>&nbsp<button class="btn btn-danger">DENEGAR</button></div></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </main>
-                    <!-- FIN PANEL DE ADMINISTRACION DE CARTELES -->
-
-                    <!-- Panel de estadisticas -->
-                    <main class="container pt-5"  id="estadisticas" style="display:none;">
-                        <div class="card mb-5">
-                            <div class="card-header">Estadísticas generales</div>
-                            <div class="card-block p-0">
-                                <table class="table table-bordered table-sm m-0">
-                                    <thead class="">
-                                    <tr>
-                                        <th>Alumno</th>
-                                        <th>Fecha</th>
-                                        <th>Cartel</th>
-                                        <th>Participación</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="align-middle">John Lilki</td>
-                                        <td class="align-middle">September 14, 2013</td>
-                                        <td class="align-middle"><a href="post.html">La contaminación acustica</a></td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="lg-1 offset-lg-2" id="piechart1"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="lg-1 offset-lg-2" id="piechart11"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">John Lilki</td>
-                                        <td class="align-middle">September 14, 2013</td>
-                                        <td class="align-middle"><a href="post.html">La contaminación acustica</a></td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="lg-1 offset-lg-2" id="piechart2"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="lg-1 offset-lg-2" id="piechart22"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="align-middle">John Lilki</td>
-                                        <td class="align-middle">September 14, 2013</td>
-                                        <td class="align-middle"><a href="post.html">La contaminación acustica</a></td>
-                                        <td>
-                                            <div class="row">
-                                                <div class="lg-1 offset-lg-2" id="piechart3"></div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="lg-1 offset-lg-2" id="piechart33"></div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </main>
-                    <!-- FIN PANEL DE ESTADISTICAS -->
-
-                </div>
-
-                <!-- Sticky Footer -->
-                <footer class="sticky-footer">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright ©</span>
-                        </div>
-                    </div>
-                </footer>
-
-
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('img/fondoPrincipal.jpg')">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="site-heading">
+              <h1>MEDIOAMBIENTE</h1>
+              <span class="subheading">Problematicas sobre el medioAmbiente</span>
             </div>
-            <!-- /.content-wrapper -->
-
+          </div>
         </div>
-        <!-- /#wrapper -->
+      </div>
+    </header>
 
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+    <!-- Main Content -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-10 col-md-10 mx-auto">
+		<!-- Primera entrada de post -->
+          <div class="post-preview">
+			  <div class="row">
+				<div class="col-lg-3">
+					<a class="thumbnail" href="#">
+						<img class="img-thumbnail" src="img/toneladas.jpg"  alt="Toneladas">
+					</a>
+				</div>
+				<div class="col-lg-9">
+					<a href="post.html">
+					  <h2 class="post-title">
+						En el País Vasco se desperdician 350.000 toneladas de alimentos al año
+					  </h2>
+					</a>
+					<p class="post-meta">Posteado por
+					  <a href="#">Alumno 1</a>
+					  en Octubre, 2018</p>
+				</div>
+			  </div>
+			</div>
+          <hr> <!-- LINEA DIVISORA -->
+		  
+		  <!-- Segunda entrada de post -->
+          <div class="post-preview">
+			  <div class="row">
+				<div class="col-lg-3">
+					<a class="thumbnail" href="#">
+						<img class="img-thumbnail" src="img/sinsentido.jpg"  alt="Sinsentido">
+					</a>
+				</div>
+				<div class="col-lg-9">
+					<a href="post.html">
+					  <h2 class="post-title">
+						Día Mundial De la Alimentación, ¿no es un sinsentido?
+					  </h2>
+					</a>
+					<p class="post-meta">Posteado por
+					  <a href="#">Alumno 2</a>
+					  en Octubre, 2018</p>
+				</div>
+			  </div>
+			</div>
+          <hr>
+		  
+		  <!-- Tercera entrada de post -->
+          <div class="post-preview">
+			  <div class="row">
+				<div class="col-lg-3">
+					<a class="thumbnail" href="#">
+						<img class="img-thumbnail" src="img/cerveza.jpg"  alt="Imagen de cerveza">
+					</a>
+				</div>
+				<div class="col-lg-9">
+					<a href="post.html">
+					  <h2 class="post-title">
+						La cerveza, amenazada por el cambio climático.
+					  </h2>
+					</a>
+					<p class="post-meta">Posteado por
+					  <a href="#">Alumno 3</a>
+					  en Octubre, 2018</p>
+				</div>
+			  </div>
+			</div>
+          <hr>
+		  
+		  
+          <!-- Final de las entradas -->
+          <div class="clearfix">
+            <a class="btn btn-primary float-right" href="#">Entradas antiguas &rarr;</a>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <hr>
 
+    <!-- Pie de pagina -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-md-10 mx-auto">
+            <ul class="list-inline text-center">
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <span class="fa-stack fa-lg">
+                    <i class="fas fa-circle fa-stack-2x"></i>
+                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                  </span>
+                </a>
+              </li>
+            </ul>
+            <p class="copyright text-muted">Copyright &copy; Your Website 2018</p>
+          </div>
+        </div>
+      </div>
+    </footer>
 
-    <!-- Bootstrap core JavaScript-->
+    <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <!-- Custom scripts for this template -->
+    <script src="js/clean-blog.min.js"></script>
+	
+	<!-- Pequeño script para cambiar de pagina segun rol -->
+	<script>
+		
+		document.getElementById("login-nav").addEventListener("submit", clickSesion);
+	
+		function clickSesion() {
+			// Leemos el valor del email de iniciar sesion
+			var email = document.getElementById("emailLogin");
+			var pass = document.getElementById("passWordLogin");
+			if( (email.value).localeCompare("profesor@unizar.es") == 0 && (pass.value).localeCompare("unizar") == 0){
+				window.open("profesor.html","_self");	
+			}else if( (email.value).localeCompare("alumno@unizar.es") == 0 && (pass.value).localeCompare("unizar") == 0){
+				window.open("alumno.html","_self");	
+			}else if((email.value).localeCompare("admin@admin.es") == 0 && (pass.value).localeCompare("admin") == 0){
+				window.open("admin.html","_self");
+			}else{
+				location.href = "index.html";
+			}
+		}
+	
+	</script>
+	
 
-    <!-- Page level plugin JavaScript-->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin.min.js"></script>
-
-    <!-- Demo scripts for this page-->
-    <script src="js/demo/datatables-demo.js"></script>
-    <script src="js/demo/chart-area-demo.js"></script>
-
-    <script>
-
-        function moderarCarteles(){
-            document.getElementById("adminCarteles").style.display = "block";
-            document.getElementById("estadisticas").style.display = "none";
-        }
-
-        function mostrarBaja(){
-            document.getElementById("adminCarteles").style.display = "none";
-            document.getElementById("estadisticas").style.display = "block";
-        }
-
-    </script>
-
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
-    <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-
-            var data1 = google.visualization.arrayToDataTable([
-                ['Acierto/Fallo', 'Numero'],
-                ['Aciertos',     20],
-                ['Fallos',    5]
-            ]);
-
-            var data2 = google.visualization.arrayToDataTable([
-                ['Acierto/Fallo', 'Numero'],
-                ['Aciertos',     10],
-                ['Fallos',    8]
-            ]);
-
-            var data3 = google.visualization.arrayToDataTable([
-                ['Acierto/Fallo', 'Numero'],
-                ['Aciertos',     5],
-                ['Fallos',    13]
-            ]);
-
-            var data4 = google.visualization.arrayToDataTable([
-                ['A favor/En contra', 'Numero'],
-                ['A favor',     5],
-                ['En contra',    13]
-            ]);
-
-
-            var options = {
-                title: ''
-            };
-
-            var chart1 = new google.visualization.PieChart(document.getElementById('piechart1'));
-            var chart2 = new google.visualization.PieChart(document.getElementById('piechart2'));
-            var chart3 = new google.visualization.PieChart(document.getElementById('piechart3'));
-            var chart11 = new google.visualization.PieChart(document.getElementById('piechart11'));
-            var chart22 = new google.visualization.PieChart(document.getElementById('piechart22'));
-            var chart33 = new google.visualization.PieChart(document.getElementById('piechart33'));
-
-            chart1.draw(data1, options);
-            chart2.draw(data2, options);
-            chart3.draw(data3, options);
-            chart11.draw(data4, options);
-            chart22.draw(data4, options);
-            chart33.draw(data4, options);
-        }
-    </script>
-
-
-</body>
+  </body>
 
 </html>
