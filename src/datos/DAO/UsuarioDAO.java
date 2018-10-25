@@ -210,7 +210,7 @@ public class UsuarioDAO {
 			ResultSet rs = ps.executeQuery(); //Se ejecuta la query
 			
 			UsuarioVO usuario = null;
-				// Mientras exista elementos, los vamos añadiendo
+			// Mientras exista elementos, los vamos añadiendo
 			while(rs.next()) {
 				usuario = new UsuarioVO(rs.getString("correo"), null, rs.getInt("rol"), 
 					                 rs.getString("nombre"), rs.getInt("nacimiento"), rs.getInt("puntuacion"),
