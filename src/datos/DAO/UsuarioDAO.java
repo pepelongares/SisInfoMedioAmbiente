@@ -1,0 +1,264 @@
+package datos.DAO;
+
+import datos.VO.UsuarioVO;
+
+import java.sql.*;
+import java.util.*;
+
+
+/* Une la clase de UserVO con la base de datos */
+public class UsuarioDAO {
+
+	/*
+	 * Busca en la base de datos si existe el usuario "usuario". Si está en la BD,
+	 * devuelve un objeto UserVO con todos los atributos salvo la contraseña
+	 */
+	public static UsuarioVO buscarUsuario(UsuarioVO usuario, Connection conexion) {
+		String query = "SELECT * FROM Usuario WHERE correo=?"; //Query para buscar al usuario
+		
+		UsuarioVO result = null;
+		
+		// Realizamos la busqueda en la BD
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setString(1, usuario.getEmail());
+			
+			ResultSet rs = ps.executeQuery(); //Se ejecuta la query
+			if(!rs.first()) { //Si no existe ningun usuario
+				throw new SQLException("ERROR: No se ha encontrado ningun usuario con email: "+usuario.getEmail());
+			}else { //Existe un usuario
+				result = new UsuarioVO();
+				result.setName(rs.getString("nombre"));
+	        	result.setEmail(rs.getString("correo"));
+	        	result.setYear(rs.getInt("nacimiento"));
+	        	result.setRol(rs.getInt("rol"));
+	        	result.setPuntuation(rs.getInt("puntuacion"));
+			}
+		}catch(SQLException se) {
+			se.printStackTrace(); 
+		}catch(Exception e) {
+			e.printStackTrace(System.err);
+		}
+		
+		return result;
+	}
+
+	
+	/*
+	 * Busca en la base de datos si existe un usuario, con email y contraseña.
+	 * Si existe, devuelve un usuario con todos los datos, para hacer un login en
+	 * el sistema
+	 */
+	public static UsuarioVO login(UsuarioVO usuario, Connection conexion) {
+		String query = "SELECT * FROM Usuario WHERE correo= ? AND password= ?"; //Query para buscar al usuario
+		
+		UsuarioVO result = null;
+		
+		// Se realiza la busqueda en la BD
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setString(1, usuario.getEmail());
+			ps.setString(2, usuario.getPassword());
+			
+			ResultSet rs = ps.executeQuery(); //Se lanza la query
+			
+			if(!rs.first()) { //Si no existe ningun usuario
+				throw new SQLException("ERROR: No se ha encontrado ningun usuario con email: "+usuario.getEmail());
+			}else { //Existe un usuario
+				result = new UsuarioVO();
+				result.setName(rs.getString("nombre"));
+	        	result.setEmail(rs.getString("correo"));
+	        	result.setYear(rs.getInt("nacimiento"));
+	        	result.setRol(rs.getInt("rol"));
+	        	result.setPuntuation(rs.getInt("puntuacion"));
+			}
+		}catch(SQLException se) {
+			se.printStackTrace(); 
+		}catch(Exception e) {
+			e.printStackTrace(System.err);
+		}
+		
+		return result;
+		
+	}
+	
+
+    /*
+     * Añade al usuario user a la base de datos		
+     */
+	 public static boolean anyadirUsuario(UsuarioVO usuario, Connection conexion) {
+		 String query = "INSERT INTO usuario (correo,password,rol,nombre,nacimiento,puntuacion,idGrupo) VALUES "+
+                                           " (?,?,?,?,?,?,?)";
+		 
+		 boolean result = false;
+		 
+		 try {
+			 PreparedStatement ps = conexion.prepareStatement(query);
+    		 ps.setString(1, usuario.getEmail());
+    		 ps.setString(2, usuario.getPassword());
+    		 ps.setInt(3, usuario.getRol());
+    		 ps.setString(4, usuario.getName());
+    		 ps.setInt(5, usuario.getYear());
+    		 ps.setInt(6, usuario.getPuntuation());
+    		 ps.setInt(7, usuario.getGroup());
+    		 
+    		 
+    		 // Se ejecuta la adicion
+    		 int rs = ps.executeUpdate();
+    		 
+    		 // Si no ha podido registrarse, es por que algun parametro es incorrecto
+    		 if(rs == 0) {
+    			 throw new SQLException("ERROR: Algun parametro incorrecto");
+    		 }else { //Si ha podido registrarse, devuelve el mismo objeto
+    			result = true; 
+    		 }
+		 }catch(SQLException se) {
+    		 se.printStackTrace(); 
+    	 }catch(Exception e) {
+    		 e.printStackTrace(System.err);
+    	 }
+		 
+		 return result;
+	 }
+	 
+	/*
+     * Añade al usuario user a la base de datos		
+     */
+	 public static boolean modificarUsuario(String correo, UsuarioVO usuario, Connection conexion) {
+		 String query = "UPDATE Usuario SET correo=?,password=?,rol=?,nombre=?,nacimiento=?,puntuacion=?,idGrupo=? WHERE correo=?";
+		 
+		 
+		 
+		 boolean result = false;
+		 
+		 try {
+			 PreparedStatement ps = conexion.prepareStatement(query);
+    		 ps.setString(1, usuario.getEmail());
+    		 ps.setString(2, usuario.getPassword());
+    		 ps.setInt(3, usuario.getRol());
+    		 ps.setString(4, usuario.getName());
+    		 ps.setInt(5, usuario.getYear());
+    		 ps.setInt(6, usuario.getPuntuation());
+    		 ps.setInt(7, usuario.getGroup());
+    		 ps.setString(8, correo);
+    		 
+    		 
+    		 // Se ejecuta la adicion
+    		 int rs = ps.executeUpdate();
+    		 
+    		 // Si no ha podido registrarse, es por que algun parametro es incorrecto
+    		 if(rs == 0) {
+    			 throw new SQLException("ERROR: Algun parametro incorrecto");
+    		 }else { //Si ha podido registrarse, devuelve el mismo objeto
+    			result = true; 
+    		 }
+		 }catch(SQLException se) {
+    		 se.printStackTrace(); 
+    	 }catch(Exception e) {
+    		 e.printStackTrace(System.err);
+    	 }
+		 
+		 return result;
+	 }
+	 
+	 
+	/*
+     * Suma los puntos al usuario	
+     */
+	 public static boolean sumarPuntos(String correo, int puntos, Connection conexion) {
+		 String query = "UPDATE Usuario SET puntuacion=puntuacion+? WHERE correo=?";
+		 
+		 boolean result = false;
+		 
+		 try {
+			 PreparedStatement ps = conexion.prepareStatement(query);
+    		 ps.setInt(1, puntos);
+    		 ps.setString(2, correo);
+    		 
+    		 
+    		 
+    		 // Se ejecuta la adicion
+    		 int rs = ps.executeUpdate();
+    		 
+    		 // Si no ha podido registrarse, es por que algun parametro es incorrecto
+    		 if(rs == 0) {
+    			 throw new SQLException("ERROR: Algun parametro incorrecto");
+    		 }else { //Si ha podido registrarse, devuelve el mismo objeto
+    			result = true; 
+    		 }
+		 }catch(SQLException se) {
+    		 se.printStackTrace(); 
+    	 }catch(Exception e) {
+    		 e.printStackTrace(System.err);
+    	 }
+		 
+		 return result;
+	 }
+	 
+	 
+	 /*
+	  * Devuelve la lista TOP 5 de los usuarios con mayor puntuacion
+	  */
+	 public static List<UsuarioVO> topCinco(Connection conexion){
+		 String query = "SELECT * FROM Usuario WHERE rol > 1 AND puntuacion <> 0 ORDER BY puntuacion DESC LIMIT 5";
+		 
+		 
+		 List<UsuarioVO> top5 = new ArrayList<UsuarioVO>(); //Lista TOP5
+		 try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+
+			ResultSet rs = ps.executeQuery(); //Se ejecuta la query
+			
+			UsuarioVO usuario = null;
+				// Mientras exista elementos, los vamos añadiendo
+			while(rs.next()) {
+				usuario = new UsuarioVO(rs.getString("correo"), null, rs.getInt("rol"), 
+					                 rs.getString("nombre"), rs.getInt("nacimiento"), rs.getInt("puntuacion"),
+					                 rs.getInt("idGrupo"));
+				top5.add(usuario);
+				
+			}
+		 }catch(SQLException se) {
+    		 se.printStackTrace(); 
+    	 }catch(Exception e) {
+    		 e.printStackTrace(System.err);
+    	 }
+		 
+		 return top5;
+	 }
+
+	 
+	 /*
+     * Elimina al usuario de la Base de Datos	
+     */
+	 public static boolean eliminarUsuario(String correo, Connection conexion) {
+		 String query = "DELETE FROM Usuario WHERE correo = ?";
+		 
+		 boolean result = false;
+		 
+		 try {
+			 PreparedStatement ps = conexion.prepareStatement(query);
+    		 ps.setString(1, correo);
+    		 
+    		 // Borrar usuario
+    		 int rs = ps.executeUpdate();
+    		 
+    		 // Si no ha podido registrarse, es por que algun parametro es incorrecto
+    		 if(rs == 0) {
+    			 throw new SQLException("ERROR: Algun parametro incorrecto");
+    		 }else { //Si ha podido registrarse, devuelve el mismo objeto
+    			result = true; 
+    		 }
+		 }catch(SQLException se) {
+    		 se.printStackTrace(); 
+    	 }catch(Exception e) {
+    		 e.printStackTrace(System.err);
+    	 }
+		 
+		 return result;
+	 }
+
+	 
+		 
+	 
+}
