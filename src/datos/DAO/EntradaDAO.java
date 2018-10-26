@@ -30,10 +30,12 @@ public class EntradaDAO {
 			EntradaVO entrada = null;
 			while(rs.next()) {
 				entrada = new EntradaVO(rs.getDate("fecha"), rs.getInt("estado"), rs.getInt("idGrupo"), rs.getString("titulo"), 
-						rs.getString("urlImagen"), rs.getString("reto"), rs.getString("consejo"),
+						rs.getString("nombreImagen"), rs.getString("reto"), rs.getString("consejo"),
 						rs.getInt("id"), rs.getString("noticia"), null, null);
 				
-				// Deberiamos obtener aqui los dos cuestionarios cuyo id es entrada.id
+				CuestionarioVO preguntas = CuestionarioDAO.obtenerCuestionario(entrada.getId(),1,conexion);
+				CuestionarioVO opinion = CuestionarioDAO.obtenerCuestionario(entrada.getId(), 0, conexion);
+				entrada.setPreguntas(preguntas); entrada.setOpinion(opinion);
 				
 				result.add(entrada);
 			}
@@ -65,13 +67,13 @@ public class EntradaDAO {
 			EntradaVO entrada = null;
 			while(rs.next()) {
 				entrada = new EntradaVO(rs.getDate("fecha"), rs.getInt("estado"), rs.getInt("idGrupo"), rs.getString("titulo"), 
-						rs.getString("urlImagen"), rs.getString("reto"), rs.getString("consejo"),
+						rs.getString("nombreImagen"), rs.getString("reto"), rs.getString("consejo"),
 						rs.getInt("id"), rs.getString("noticia"), null, null);
 				
 				// Deberiamos obtener aqui los dos cuestionarios cuyo id es entrada.id
-				// CuestionarioVO preguntas = CuestionarioVO.obtenerCuestionario(entrada.id,tipo0,conexion);
-				// CuestionarioVO opinion = Cuestionario.obtenerCuestionario(entrada.id, tipo1, conexion);
-				// entrada.setPreguntas(preguntas); entrada.setOpinion(opinion);
+				CuestionarioVO preguntas = CuestionarioDAO.obtenerCuestionario(entrada.getId(),1,conexion);
+				CuestionarioVO opinion = CuestionarioDAO.obtenerCuestionario(entrada.getId(), 0, conexion);
+				entrada.setPreguntas(preguntas); entrada.setOpinion(opinion);
 				
 				result.add(entrada);
 			}
@@ -100,13 +102,13 @@ public class EntradaDAO {
 			EntradaVO entrada = null;
 			while(rs.next()) {
 				entrada = new EntradaVO(rs.getDate("fecha"), rs.getInt("estado"), rs.getInt("idGrupo"), rs.getString("titulo"), 
-						rs.getString("urlImagen"), rs.getString("reto"), rs.getString("consejo"),
+						rs.getString("nombreImagen"), rs.getString("reto"), rs.getString("consejo"),
 						rs.getInt("id"), rs.getString("noticia"), null, null);
 				
 				// Deberiamos obtener aqui los dos cuestionarios cuyo id es entrada.id
-				// CuestionarioVO preguntas = CuestionarioVO.obtenerCuestionario(entrada.id,tipo0,conexion);
-				// CuestionarioVO opinion = Cuestionario.obtenerCuestionario(entrada.id, tipo1, conexion);
-				// entrada.setPreguntas(preguntas); entrada.setOpinion(opinion);
+				CuestionarioVO preguntas = CuestionarioDAO.obtenerCuestionario(entrada.getId(),1,conexion);
+				CuestionarioVO opinion = CuestionarioDAO.obtenerCuestionario(entrada.getId(), 0, conexion);
+				entrada.setPreguntas(preguntas); entrada.setOpinion(opinion);
 				
 				result.add(entrada);
 			}
@@ -135,13 +137,13 @@ public class EntradaDAO {
 			EntradaVO entrada = null;
 			while(rs.next()) {
 				entrada = new EntradaVO(rs.getDate("fecha"), rs.getInt("estado"), rs.getInt("idGrupo"), rs.getString("titulo"), 
-						rs.getString("urlImagen"), rs.getString("reto"), rs.getString("consejo"),
+						rs.getString("nombreImagen"), rs.getString("reto"), rs.getString("consejo"),
 						rs.getInt("id"), rs.getString("noticia"), null, null);
 				
 				// Deberiamos obtener aqui los dos cuestionarios cuyo id es entrada.id
-				// CuestionarioVO preguntas = CuestionarioVO.obtenerCuestionario(entrada.id,tipo0,conexion);
-				// CuestionarioVO opinion = Cuestionario.obtenerCuestionario(entrada.id, tipo1, conexion);
-				// entrada.setPreguntas(preguntas); entrada.setOpinion(opinion);
+				CuestionarioVO preguntas = CuestionarioDAO.obtenerCuestionario(entrada.getId(),1,conexion);
+				CuestionarioVO opinion = CuestionarioDAO.obtenerCuestionario(entrada.getId(), 0, conexion);
+				entrada.setPreguntas(preguntas); entrada.setOpinion(opinion);
 				
 				result.add(entrada);
 			}
@@ -157,10 +159,10 @@ public class EntradaDAO {
 	/*
 	 *  Obtiene los datos completos de una entrada
 	 */
-	public static List<EntradaVO> obtenerEntradaUnica(int id, Connection conexion){
+	public static EntradaVO obtenerEntradaUnica(int id, Connection conexion){
 		String query = "SELECT * FROM Entrada WHERE id = ?";
 		
-		List<EntradaVO> result = new ArrayList<EntradaVO>(); //Lista
+		EntradaVO result = null; //Lista
 		
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
@@ -168,18 +170,16 @@ public class EntradaDAO {
 
 			ResultSet rs = ps.executeQuery(); //Se ejecuta la query
 			
-			EntradaVO entrada = null;
 			while(rs.next()) {
-				entrada = new EntradaVO(rs.getDate("fecha"), rs.getInt("estado"), rs.getInt("idGrupo"), rs.getString("titulo"), 
-						rs.getString("urlImagen"), rs.getString("reto"), rs.getString("consejo"),
+				result = new EntradaVO(rs.getDate("fecha"), rs.getInt("estado"), rs.getInt("idGrupo"), rs.getString("titulo"), 
+						rs.getString("nombreImagen"), rs.getString("reto"), rs.getString("consejo"),
 						rs.getInt("id"), rs.getString("noticia"), null, null);
 				
-				// Deberiamos obtener aqui los dos cuestionarios cuyo id es entrada.id
-				// CuestionarioVO preguntas = CuestionarioVO.obtenerCuestionario(entrada.id,tipo0,conexion);
-				// CuestionarioVO opinion = Cuestionario.obtenerCuestionario(entrada.id, tipo1, conexion);
-				// entrada.setPreguntas(preguntas); entrada.setOpinion(opinion);
 				
-				result.add(entrada);
+				CuestionarioVO preguntas = CuestionarioDAO.obtenerCuestionario(result.getId(),1,conexion);
+				CuestionarioVO opinion = CuestionarioDAO.obtenerCuestionario(result.getId(), 0, conexion);
+				result.setPreguntas(preguntas); result.setOpinion(opinion);
+				
 			}
 		}catch(SQLException se) {
    		 	se.printStackTrace(); 
@@ -194,21 +194,65 @@ public class EntradaDAO {
 	 * Añade a la base de datos una nueva entrada
 	 */
 	public static boolean anyadirEntrada(EntradaVO entrada, Connection conexion) {
-		 String query = "INSERT INTO entrada (id,nombreImagen,titulo,fecha,noticia,reto,consejo,estado,idGrupo) VALUES "+
-                 " (?,?,?,?,?,?,?,0,?)";
+		 String query = "INSERT INTO entrada (nombreImagen,titulo,fecha,noticia,reto,consejo,estado,idGrupo) VALUES "+
+                 " (?,?,?,?,?,?,0,?)";
 
 		 boolean result = false;
 
 		 try {
 			PreparedStatement ps = conexion.prepareStatement(query);
-			ps.setInt(1, entrada.getId());
-			ps.setString(2, entrada.getUrlImagen());
-			ps.setString(3, entrada.getTitulo());
-			ps.setDate(4, entrada.getFecha());
-			ps.setString(5, entrada.getNoticia());
-			ps.setString(6, entrada.getReto());
-			ps.setString(7, entrada.getConsejo());
+			ps.setString(1, entrada.getUrlImagen());
+			ps.setString(2, entrada.getTitulo());
+			ps.setDate(3, entrada.getFecha());
+			ps.setString(4, entrada.getNoticia());
+			ps.setString(5, entrada.getReto());
+			ps.setString(6, entrada.getConsejo());
+			ps.setInt(7, entrada.getIdGrupo());
+
+
+			// Se ejecuta la adicion
+			int rs = ps.executeUpdate();
+			
+			// Si no ha podido registrarse, es por que algun parametro es incorrecto
+			if(rs == 0) {
+				throw new SQLException("ERROR: Algun parametro incorrecto");
+			}else { //Si ha podido registrarse, devuelve el mismo objeto
+				if(entrada.getOpinion() != null) CuestionarioDAO.anyadirCuestionario(entrada.getOpinion(), conexion);
+				if(entrada.getPreguntas() != null) CuestionarioDAO.anyadirCuestionario(entrada.getPreguntas(), conexion);
+				result = true; 
+			}
+		}catch(SQLException se) {
+			se.printStackTrace(); 
+		}catch(Exception e) {
+			e.printStackTrace(System.err);
+		}
+
+		 return result;
+	}
+	
+	
+	
+	/*
+	 * Modifica la entrada id con nuevos valores
+	 */
+	public static boolean modificarEntrada(int id, EntradaVO entrada, Connection conexion) {
+		 String query = "UPDATE entrada SET nombreImagen =?, titulo = ?, fecha = ?, noticia = ?,"+
+				 	    " reto = ?, consejo = ?, estado= ?, idGrupo = ? WHERE id = ?";
+
+		 boolean result = false;
+
+		 try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			
+			ps.setString(1, entrada.getUrlImagen());
+			ps.setString(2, entrada.getTitulo());
+			ps.setDate(3, entrada.getFecha());
+			ps.setString(4, entrada.getNoticia());
+			ps.setString(5, entrada.getReto());
+			ps.setString(6, entrada.getConsejo());
+			ps.setInt(7, entrada.getEstado());
 			ps.setInt(8, entrada.getIdGrupo());
+			ps.setInt(9, entrada.getId());
 
 
 			// Se ejecuta la adicion
@@ -228,9 +272,36 @@ public class EntradaDAO {
 
 		 return result;
 	}
+			
+
+	/*
+	 * Añade de la base de datos una entrada cuyo id es 'id'
+	 */
+	public static boolean eliminarEntrada(int id, Connection conexion) {
+		 String query = "DELETE FROM entrada WHERE id =?";
+
+		 boolean result = false;
+
+		 try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setInt(1, id);
 	
-	
-	// Eliminar y modificar de la misma manera que añadir, pero con otra sentencia
-	
+			// Se ejecuta la adicion
+			int rs = ps.executeUpdate();
+			
+			// Si no ha podido registrarse, es por que algun parametro es incorrecto
+			if(rs == 0) {
+				throw new SQLException("ERROR: Algun parametro incorrecto");
+			}else { //Si ha podido registrarse, devuelve el mismo objeto
+				result = true; 
+			}
+		}catch(SQLException se) {
+			se.printStackTrace(); 
+		}catch(Exception e) {
+			e.printStackTrace(System.err);
+		}
+
+		 return result;
+	}
 
 }

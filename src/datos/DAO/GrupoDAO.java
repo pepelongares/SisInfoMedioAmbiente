@@ -72,7 +72,7 @@ public class GrupoDAO {
 	
 	
 	/*
-	 * Elimina el grupo a la Base de Datos
+	 * Modifica el grupo de la Base de Datos
 	 */
 	public static boolean modificarGrupo(int id, String nombre, Connection conexion) {
 		String query = "UPDATE Grupo SET nombre=? WHERE id=?";
@@ -105,7 +105,7 @@ public class GrupoDAO {
 	
 	
 	/*
-	 * Añade el grupo a la Base de Datos
+	 * Busca el grupo si existe en la base de datos. Si es cierto, devuelve los datos
 	 */
 	public static GrupoVO buscarGrupo(GrupoVO grupo, Connection conexion) {
 		String query = "SELECT * FROM grupo WHERE id = ? OR nombre = ?";
@@ -117,10 +117,10 @@ public class GrupoDAO {
 			 ps.setInt(1, grupo.getId());
 			 ps.setString(2, grupo.getNombre());
    		 
-			 // Añadir grupo
+			 // Buscar
 			 ResultSet rs = ps.executeQuery();
    		 
-			 // Si no ha podido registrarse, es por que algun parametro es incorrecto
+			 
 			 if(!rs.first()) {
 				 throw new SQLException("ERROR: Algun parametro incorrecto");
 			 }else { //Si ha podido registrarse, devuelve el mismo objeto

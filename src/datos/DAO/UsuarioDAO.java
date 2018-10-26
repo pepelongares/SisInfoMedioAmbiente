@@ -226,6 +226,40 @@ public class UsuarioDAO {
 		 
 		 return top5;
 	 }
+	 
+	 /**
+	  * Devuelve una lista de todos los acertantes de la pregunta de idEntrada
+	  * @param idEntrada
+	  * @param conexion
+	  * @return
+	  */
+	 public static List<UsuarioVO> consigueAcertantes(int idEntrada, Connection conexion){
+		List<UsuarioVO> retVal = new ArrayList();
+		String query = "SELECT u.*  FROM Usuario u Cuestionario c Contestar co"
+                        + " WHERE c.idEntrada = ?  AND u.correo = co.correo AND c.tipo"
+                        + " = co.tipo AND c.posCorrecta = co.posPregunta  ";
+		try{
+			PreparedStatement ps = conexion.prepareStatement(query);
+			ps.setInt(1,idEntrada);
+            ResultSet rs = ps.executeQuery();
+			while(rs.next()){
+                    UsuarioVO usuarioAux = new UsuarioVO();
+                    usuarioAux.setName(rs.getString("nombre"));
+                    usuarioAux.setEmail(rs.getString("correo"));
+                    usuarioAux.setYear(rs.getInt("nacimiento"));
+                    usuarioAux.setRol(rs.getInt("rol"));
+                    usuarioAux.setPuntuation(rs.getInt("puntuacion"));
+                    retVal.add(usuarioAux);
+            }
+			
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}catch(Exception e) {
+   		 e.printStackTrace(System.err);
+   	 	}
+		return retVal;
+	 }
 
 	 
 	 /*
