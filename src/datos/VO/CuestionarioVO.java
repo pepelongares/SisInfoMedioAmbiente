@@ -4,6 +4,11 @@ import java.util.List;
 
 public class CuestionarioVO {
 
+	public CuestionarioVO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	private int tipo;
 	private String pregunta;
 	private int numFallos;

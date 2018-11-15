@@ -136,6 +136,38 @@ public class GrupoDAO {
 		 
 		 return result;
 	}
+	
+	/*
+	 * Busca el grupo relativo a un usuario
+	 */
+	public static GrupoVO buscarGrupoUsuario(String correo, Connection conexion) {
+		String query = "SELECT idGrupo FROM usuario WHERE correo = ?";
+		 
+		GrupoVO result = null;
+		 
+		 try {
+			 PreparedStatement ps = conexion.prepareStatement(query);
+			 ps.setString(1, correo);
+   		 
+			 // Buscar
+			 ResultSet rs = ps.executeQuery();
+   		 
+			 
+			 if(!rs.first()) {
+				 throw new SQLException("ERROR: Algun parametro incorrecto");
+			 }else { //Si ha podido registrarse, devuelve el mismo objeto
+				 result = new GrupoVO(rs.getInt("idGrupo"), "");
+				 result = GrupoDAO.buscarGrupo(result,conexion);
+			 }
+		 }catch(SQLException se) {
+			 se.printStackTrace(); 
+		 }catch(Exception e) {
+			 e.printStackTrace(System.err);
+		 }
+		 
+		 return result;
+	}
+
 			 
 	 
 }

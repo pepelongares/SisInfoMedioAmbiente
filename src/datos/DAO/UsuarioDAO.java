@@ -13,7 +13,7 @@ public class UsuarioDAO {
 	 * Busca en la base de datos si existe el usuario "usuario". Si está en la BD,
 	 * devuelve un objeto UserVO con todos los atributos salvo la contraseña
 	 */
-	public static UsuarioVO buscarUsuario(UsuarioVO usuario, Connection conexion) {
+	public static UsuarioVO buscarUsuario(String correo, Connection conexion) {
 		String query = "SELECT * FROM Usuario WHERE correo=?"; //Query para buscar al usuario
 		
 		UsuarioVO result = null;
@@ -21,11 +21,11 @@ public class UsuarioDAO {
 		// Realizamos la busqueda en la BD
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
-			ps.setString(1, usuario.getEmail());
+			ps.setString(1, correo);
 			
 			ResultSet rs = ps.executeQuery(); //Se ejecuta la query
 			if(!rs.first()) { //Si no existe ningun usuario
-				throw new SQLException("ERROR: No se ha encontrado ningun usuario con email: "+usuario.getEmail());
+				throw new SQLException("ERROR: No se ha encontrado ningun usuario con email: "+correo);
 			}else { //Existe un usuario
 				result = new UsuarioVO();
 				result.setName(rs.getString("nombre"));
@@ -49,7 +49,7 @@ public class UsuarioDAO {
 	 * Si existe, devuelve un usuario con todos los datos, para hacer un login en
 	 * el sistema
 	 */
-	public static UsuarioVO login(UsuarioVO usuario, Connection conexion) {
+	public static UsuarioVO login(String correo, String pass, Connection conexion) {
 		String query = "SELECT * FROM Usuario WHERE correo= ? AND password= ?"; //Query para buscar al usuario
 		
 		UsuarioVO result = null;
@@ -57,13 +57,13 @@ public class UsuarioDAO {
 		// Se realiza la busqueda en la BD
 		try {
 			PreparedStatement ps = conexion.prepareStatement(query);
-			ps.setString(1, usuario.getEmail());
-			ps.setString(2, usuario.getPassword());
+			ps.setString(1, correo);
+			ps.setString(2, pass);
 			
 			ResultSet rs = ps.executeQuery(); //Se lanza la query
 			
 			if(!rs.first()) { //Si no existe ningun usuario
-				throw new SQLException("ERROR: No se ha encontrado ningun usuario con email: "+usuario.getEmail());
+				throw new SQLException("ERROR: No se ha encontrado ningun usuario con email: "+correo);
 			}else { //Existe un usuario
 				result = new UsuarioVO();
 				result.setName(rs.getString("nombre"));
@@ -235,9 +235,11 @@ public class UsuarioDAO {
 	  */
 	 public static List<UsuarioVO> consigueAcertantes(int idEntrada, Connection conexion){
 		List<UsuarioVO> retVal = new ArrayList();
-		String query = "SELECT u.*  FROM Usuario u Cuestionario c Contestar co"
-                        + " WHERE c.idEntrada = ?  AND u.correo = co.correo AND c.tipo"
-                        + " = co.tipo AND c.posCorrecta = co.posPregunta  ";
+		String query = "SELECT DISTINCT u.* FROM Usuario u Contestar c1, Cuestionario c2"
+                        + " WHERE c1.posPregunta = c2.posCorrecta AND c1.correo=u.correo AND "
+                        + " c2.idEntrada=?";
+		
+
 		try{
 			PreparedStatement ps = conexion.prepareStatement(query);
 			ps.setInt(1,idEntrada);
@@ -279,6 +281,43 @@ public class UsuarioDAO {
     		 
     		 // Si no ha podido registrarse, es por que algun parametro es incorrecto
     		 if(rs == 0) {
+    			 throw new SQLException("ERROR: Algun parametro incorrecto");
+    		 }else { //Si ha podido registrarse, devuelve el mismo objeto
+    			result = true; 
+    		 }
+		 }catch(SQLException se) {
+    		 se.printStackTrace(); 
+    	 }catch(Exception e) {
+    		 e.printStackTrace(System.err);
+    	 }
+		 
+		 return result;
+	 }
+	 
+	 /*
+     * Devuelve verdad si y solo si el usuario ha contestado el cuestionario de tipo 'tipo'
+     * relativo a la entrada idEntrada	
+     */
+	 public static boolean haContestado(String correo, int tipo, int idEntrada, Connection conexion) {
+		 String query = "SELECT DISTINCT correo FROM contestar c WHERE c.idEntrada=? AND "+
+	                    "c.tipo = ? AND c.correo=?";
+		 
+		 boolean result = false;
+		 
+		 try {
+			 PreparedStatement ps = conexion.prepareStatement(query);
+			 ps.setInt(1, idEntrada);
+			 ps.setInt(2, tipo);
+			 ps.setString(3, correo);
+    		 
+    		 
+    		 
+    		 // Realizar busqueda
+    		 ResultSet rs = ps.executeQuery();
+    		 
+    		 // Si no ha podido registrarse, es por que algun parametro es incorrecto
+    		 if(!rs.first()) {
+    			 result = false;
     			 throw new SQLException("ERROR: Algun parametro incorrecto");
     		 }else { //Si ha podido registrarse, devuelve el mismo objeto
     			result = true; 
