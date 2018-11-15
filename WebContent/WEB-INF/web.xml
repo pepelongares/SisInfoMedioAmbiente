@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>SisInfo</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+  	<servlet-name>CargarEntrada</servlet-name>
+  	<servlet-class>control.CargarEntrada</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<servlet-class>control.LoginServlet</servlet-class>
+  </servlet><servlet>
+  	<servlet-name>CerrarSesion</servlet-name>
+  	<servlet-class>control.CerrarSesion</servlet-class>
+  </servlet><servlet>
+  	<servlet-name>RegistrarUsuario</servlet-name>
+  	<servlet-class>control.RegistrarUsuario</servlet-class>
+  </servlet><servlet>
+  	<servlet-name>EliminarUsuario</servlet-name>
+  	<servlet-class>control.EliminarUsuario</servlet-class>
+</servlet><servlet-mapping>
+  	<servlet-name>CargarEntrada</servlet-name>
+  	<url-pattern>/CargarEntrada.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>LoginServlet</servlet-name>
+  	<url-pattern>/LoginServlet.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>CerrarSesion</servlet-name>
+  	<url-pattern>/CerrarSesion.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>RegistrarUsuario</servlet-name>
+  	<url-pattern>/RegistrarUsuario.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>EliminarUsuario</servlet-name>
+  	<url-pattern>/EliminarUsuario.do</url-pattern>
+  </servlet-mapping>
+</web-app>
