@@ -14,6 +14,9 @@
 	
 	<!-- Estilos para esta pagina -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
+    
+    <!--  Consentimiento de cookies -->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
 	
 	<!--  IMPORTS de JAVA -->
 	<%@ page import="datos.VO.EntradaVO" %>
@@ -225,6 +228,32 @@
     </div>
 
     <hr>
+    
+    <!-- CONSENTIMIENTO DE COOKIES -->
+    
+	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+	<script>
+	window.addEventListener("load", function(){
+	window.cookieconsent.initialise({
+	  "palette": {
+	    "popup": {
+	      "background": "#efefef",
+	      "text": "#404040"
+	    },
+	    "button": {
+	      "background": "#8ec760",
+	      "text": "#ffffff"
+	    }
+	  },
+	  "content": {
+	    "message": "Utilizamos cookies propias y de terceros para obtener datos estadísticos de la navegación de nuestros usuarios y mejorar nuestros servicios. Si acepta o continúa navegando, consideramos que acepta su uso.",
+	    "dismiss": "Lo tengo!",
+	    "link": "Leer mas",
+	    "href": "PoliticaCookies.html"
+	  }
+	})});
+	</script>
 
 
 	<!-- ZONA DE SCRIPTS -->
