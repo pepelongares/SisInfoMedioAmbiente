@@ -135,7 +135,7 @@
 				<div class="card card-register mx-auto mt-5">
 				<div class="card-header">Eliminar usuario</div>
 				<div class="card-body">
-				  <form c="form" action ="EliminarUsuario" method="post" role="form" accept-charset="UTF-8">
+				  <form class="form" action ="EliminarUsuario" method="post" role="form" accept-charset="UTF-8">
 					<div class="form-group">
 					  <div class="form-label-group">
 						<input type="email" name = "email2" id="inputEmail2" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">

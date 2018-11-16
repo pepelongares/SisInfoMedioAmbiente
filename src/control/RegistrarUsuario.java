@@ -3,6 +3,7 @@ package control;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -50,16 +51,18 @@ public class RegistrarUsuario extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String nombre = request.getParameter("name");
 		String correo = request.getParameter("email");
-		String pass   = request.getParameter("pass");
+		String pass   = request.getParameter("inputPassword");
 		String anyo   = request.getParameter("edad");
 		String grupo  = request.getParameter("grupo");
 		String rol    = request.getParameter("rol");  
 		
 		Facade fachada = new Facade();
 		boolean haPodido = false;
+		UsuarioVO usuario = null;
 		if(grupo == null || rol == null) { // Registro de usuario externo
-			UsuarioVO usuario = new UsuarioVO(correo, pass, 3, nombre, Integer.parseInt(anyo), 0, 0);
+			usuario = new UsuarioVO(correo, pass, 3, nombre, Integer.parseInt(anyo), 0, 1);
 			try {
+				System.out.println(usuario);
 				haPodido = fachada.anyadirUsuario(usuario);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -67,7 +70,7 @@ public class RegistrarUsuario extends HttpServlet {
 			}
 			
 		}else {				// Registro de usuario interno
-			UsuarioVO usuario = null;
+			
 			if(Integer.parseInt(rol) == 0 || Integer.parseInt(rol) == 1) { //Profesor o admin -> Grupo no carteles
 				usuario = new UsuarioVO(correo, pass, Integer.parseInt(rol), nombre, Integer.parseInt(anyo), 0, 1);
 			}else {
@@ -81,9 +84,13 @@ public class RegistrarUsuario extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		
+		System.out.println(usuario);
 		if(haPodido == true) {
-			response.sendRedirect("index.jsp"); // De momento de depuracion, deberia salir una pagina personalizada
+			RequestDispatcher rd = request.getRequestDispatcher("LoginServlet");
+			request.setAttribute("emailLogin", usuario.getEmail());
+			request.setAttribute("passWordLogin", usuario.getPassword());
+			rd.forward(request,response);
+			//response.sendRedirect("index.jsp"); // De momento de depuracion, deberia salir una pagina personalizada
 		}else { // No ha podido registrarse, algun campo incorrecto, o ya existe
 			
 		}

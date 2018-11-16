@@ -46,6 +46,10 @@ public class LoginServlet extends HttpServlet {
 			// Parametros del inicio de sesion
 			String correo = request.getParameter("emailLogin");
 			String pass = request.getParameter("passWordLogin");
+			if(correo == null || pass == null) {
+				correo = (String) request.getAttribute("emailLogin");
+				pass   = (String) request.getAttribute("passWordLogin");
+			}
 			
 			//Muestra por pantalla la accion
 			System.out.println("SERVLET: LOGIN");
@@ -69,6 +73,9 @@ public class LoginServlet extends HttpServlet {
 			        request.setAttribute("user", correo);
 			        String page = request.getHeader("Referer").replaceAll("http://localhost:8080/SistemasInformacion/", "");
 			        System.out.println(page);
+			        if(page.contentEquals("pagina_registro.jsp")) {
+			        	page = "index.jsp";
+			        }
 			        response.sendRedirect(page);
 				}
 			}else {

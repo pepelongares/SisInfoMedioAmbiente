@@ -132,7 +132,7 @@
             	out.write("</ul>");
             	out.write("</li>");
             	out.write("<li class=\"nav-item\">");
-            	out.write("<a class=\"nav-link\" href=\"RegistrarUsuario\">Registro</a>");
+            	out.write("<a class=\"nav-link\" href=\"pagina_registro.jsp\">Registro</a>");
             	out.write("</li>");
             	
             }
