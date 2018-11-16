@@ -33,7 +33,7 @@ public class CargarEntrada extends HttpServlet {
 		// Al ser metodo get, va implicito el id en la url.
 		System.out.println("ME han llamado");
 		String id = request.getParameter("id"); 
-		request.setAttribute("login", request.getParameter("user"));
+		System.out.println(id);
 		request.getRequestDispatcher( "entrada.jsp?id="+id ).forward( request, response );
 		
 	}

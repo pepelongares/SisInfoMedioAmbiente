@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="utf-8">
     <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
@@ -85,10 +85,12 @@ input::-webkit-input-placeholder {
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </head>
 <body>
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html>
     <head> 
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="utf-8">
+		
 
 		<!-- Website Font style -->
 	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">

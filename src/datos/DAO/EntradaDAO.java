@@ -324,5 +324,26 @@ public class EntradaDAO {
 
 		 return result;
 	}
+	
+	public static int obtenerUltimoID(Connection conexion) {
+		String query = "SELECT id FROM Entrada ORDER BY id DESC LIMIT 1";
+		int result = -1;
+		
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+
+			ResultSet rs = ps.executeQuery(); //Se ejecuta la query
+			
+			if(rs.next()) {
+				result = rs.getInt(1);
+			}
+		}catch(SQLException se) {
+   		 	se.printStackTrace(); 
+   	 	}catch(Exception e) {
+   	 		e.printStackTrace(System.err);
+   	 	}
+		return result;
+		
+	}
 
 }

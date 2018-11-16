@@ -56,8 +56,8 @@
      	
      	if(login == null)
      		login = "";
-  		
-		int id = Integer.parseInt(request.getParameter("id")); //Offset
+
+		int id = Integer.parseInt(request.getParameter("id")); //Id de la entrada
 		boolean haContestadoOpinion = false;
 		boolean haContestadoPregunta = false;
 		EntradaVO entrada = new EntradaVO();
@@ -70,6 +70,7 @@
 		
 		try{
 			entrada = fachada.getEntradaId(id);
+			System.out.println(entrada);
 			grupo = fachada.getGrupoEntrada(entrada.getIdGrupo());
 			pregunta = fachada.consigueCuestionario(entrada.getId(), 0);
 			opinion = fachada.consigueCuestionario(entrada.getId(), 1);
@@ -184,8 +185,10 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-10 mx-auto">
+          <br/>
           <%
           	if(entrada != null){
+          		
           		out.write("<h2>"+ entrada.getTitulo() +"</h2>");
           		out.write("<p>"+ entrada.getNoticia() +"</p>");
           	}
@@ -196,7 +199,7 @@
 			<!-- Cuestionario -->
 			<%
 				out.write("<h2 class=\"section-heading\">Cuestionario sobre el medio ambiente</h2>");
-				out.write("<p>"+ pregunta.getPregunta() +"</p>");
+				out.write("<h6>"+ pregunta.getPregunta() +"</h6>");
 				if(!login.equals("") && haContestadoOpinion == false){ // No ha contestado
 					for(RespuestaVO respuesta : respPregunta){
 						out.write("<div class=\"radio\">");
@@ -223,7 +226,7 @@
 
 			<%
 			out.write("<h2 class=\"section-heading\">Danos tu opini&oacute;n</h2>");
-			out.write("<p>"+ pregunta.getPregunta() +"</p>");
+			out.write("<h6>"+ pregunta.getPregunta() +"</h6>");
 			if(!login.equals("") && haContestadoOpinion == false ){ // No ha contestado
 				for(RespuestaVO respuesta : respOpinion){
 					out.write("<div class=\"radio\">");

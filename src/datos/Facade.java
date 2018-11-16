@@ -279,4 +279,34 @@ public class Facade {
 		return result;
 	}
 	
+	public boolean anyadirEntrada(EntradaVO entrada) throws SQLException {
+		Connection conexion = null;
+		boolean result = false;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = EntradaDAO.anyadirEntrada(entrada, conexion);
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	public int getUltimoId() throws SQLException {
+		Connection conexion = null;
+		int result = -1;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = EntradaDAO.obtenerUltimoID(conexion);
+		}catch(Exception e){
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		return result;
+	}
+	
 }

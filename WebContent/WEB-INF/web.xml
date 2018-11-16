@@ -23,6 +23,9 @@
   	<servlet-name>RegistrarUsuario</servlet-name>
   	<servlet-class>control.RegistrarUsuario</servlet-class>
   </servlet><servlet>
+  	<servlet-name>UploadFileServlet</servlet-name>
+  	<servlet-class>control.UploadFileServlet</servlet-class>
+</servlet><servlet>
   	<servlet-name>EliminarUsuario</servlet-name>
   	<servlet-class>control.EliminarUsuario</servlet-class>
 </servlet><servlet-mapping>
@@ -44,5 +47,9 @@
   <servlet-mapping>
   	<servlet-name>EliminarUsuario</servlet-name>
   	<url-pattern>/EliminarUsuario.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>UploadFileServlet</servlet-name>
+  	<url-pattern>/UploadFileServlet.do</url-pattern>
   </servlet-mapping>
 </web-app>

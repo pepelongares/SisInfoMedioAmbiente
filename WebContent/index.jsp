@@ -92,7 +92,7 @@
                 	out.write("</li>");	
             	}else if(tipo == 2){	//alumno
             		out.write("<li class=\"nav-item\">");
-                	out.write("<a class=\"nav-link\" href=\"#\">Subir Cartel</a>");
+                	out.write("<a class=\"nav-link\" href=\"alumnoAdmin.jsp\">Subir Cartel</a>");
                 	out.write("</li>");
             	}else{			// Admin
             		
