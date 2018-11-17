@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8; encoding=UTF-8"
+<%@ page language="java" contentType="text/html; charset=utf-8; "
     pageEncoding="UTF-8"%>
     
     
@@ -6,6 +6,7 @@
 
   <head>
 
+	<meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,7 +30,6 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.min.css" rel="stylesheet">
 
-
 	<!--  IMPORTS de JAVA -->
 	<%@ page import="datos.VO.EntradaVO" %>
 	<%@ page import="datos.VO.GrupoVO" %>
@@ -47,6 +47,7 @@
 	String email = null;
    	try {
    		Cookie[] cookies = request.getCookies(); 
+   		 		
    		if (cookies != null) {
       		for (int i = 0; i < cookies.length; i++) {
 	   			if (cookies[i].getName().equals("email")) {
@@ -102,17 +103,27 @@
 
         <div class="container-fluid">
 
+			<%
+				String value = (String)request.getAttribute("sucess");
+				if(value != null){
+					if(value.equals("true")){
+						out.write("<div class=\"alert alert-success alert-dismissible\">");
+						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
+		  				out.write("<strong>¡Conseguido!</strong> La entrada se ha registrado correctamente.");
+		  				out.write("</div>");
+					}else if(value.equals("false")){
+						out.write("<div class=\"alert alert-error alert-dismissible\">");
+						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
+		  				out.write("<strong>¡Error!</strong> No se ha podido registrar la noticia.");
+		  				out.write("</div>");
+					}	
+				}
+			%>
+			
+			
           <!-- Principal-->
           <div class="row" id="principal">
           
-          <%
-          /*
-          	out.write("<div class=\"container\" id=\"subirCartel\" style=\"display:none;\">");
-          	out.write("<div class=\"card card-register mx-auto mt-5\" style=\"width: 100%;\">");
-          
-          */
-          %>
-
 			<!-- Panel de Subir Cartel -->
 				<div class="container" id="subirCartel" style="display:none;">
 				<div class="card card-register mx-auto mt-5" style="width: 100%;">
@@ -281,10 +292,8 @@
 			
 			
           </div>
-		  </div>
-          
-        <!-- Sticky Footer -->
-  		
+		  </div>  
+	          
       </div>
       <!-- /.content-wrapper -->
 	</div>

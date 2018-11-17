@@ -67,11 +67,13 @@
 		List<RespuestaVO> respOpinion = new ArrayList<RespuestaVO>();
 		CuestionarioVO pregunta = new CuestionarioVO();
 		List<RespuestaVO> respPregunta = new ArrayList<RespuestaVO>();
+		boolean esPropietario = false;
 		
 		try{
 			entrada = fachada.getEntradaId(id);
 			System.out.println(entrada);
 			grupo = fachada.getGrupoEntrada(entrada.getIdGrupo());
+			System.out.println(fachada.getGrupoUsuario(login));
 			pregunta = fachada.consigueCuestionario(entrada.getId(), 0);
 			opinion = fachada.consigueCuestionario(entrada.getId(), 1);
 			respOpinion = fachada.obtenerRespuestas(entrada.getId(), 0);
@@ -79,6 +81,14 @@
 			if(!login.equals("")){
 				haContestadoOpinion = fachada.haContestado(login, 0, entrada.getId());
 				haContestadoPregunta = fachada.haContestado(login,1, entrada.getId());
+				GrupoVO grupo2 = fachada.getGrupoUsuario(login);
+				System.out.println(grupo);
+				System.out.println(grupo2);
+				if(grupo2.equals(grupo)){
+					System.out.println("Ha entrado en el primer if");
+					esPropietario = true;
+					haContestadoPregunta = true;
+				}
 				
 			}
 		}catch(Exception e){
@@ -99,7 +109,7 @@
           <ul class="navbar-nav ml-auto">
             
             <li class="nav-item">
-              <a class="nav-link" href="about.html" style="color:#000000;">Respuestas</a>
+              <a class="nav-link" href="respuestas.jsp" style="color:#000000;">Respuestas</a>
             </li>
             <!-- Header dinamico segun si usuario logeado -->
             <%
@@ -200,7 +210,7 @@
 			<%
 				out.write("<h2 class=\"section-heading\">Cuestionario sobre el medio ambiente</h2>");
 				out.write("<h6>"+ pregunta.getPregunta() +"</h6>");
-				if(!login.equals("") && haContestadoOpinion == false){ // No ha contestado
+				if(!login.equals("") && haContestadoPregunta == false){ // No ha contestado
 					for(RespuestaVO respuesta : respPregunta){
 						out.write("<div class=\"radio\">");
 						out.write("<label><input type=\"radio\" name=\"optradio\"> "+ respuesta.getCuerpo() +"</label>");
@@ -214,8 +224,10 @@
 						out.write("</div>");
 					}
 					out.write("<br/>");
-					if(!login.equals("")){
-						out.write("<input class=\"btn btn-success\" type=\"submit\" value=\"Ya has contestado\" disabled>");
+					if(esPropietario == true){
+						out.write("<input class=\"btn btn-success\" type=\"submit\" value=\"No puedes contestar a tu pregunta\" disabled>");
+					}else if(!login.equals("")){
+						out.write("<input class=\"btn btn-success\" type=\"submit\" value=\"Ya has respondido\" disabled>");
 					}else{
 						out.write("<input class=\"btn btn-success\" type=\"submit\" value=\"Registrate para contestar\" disabled>");
 					}

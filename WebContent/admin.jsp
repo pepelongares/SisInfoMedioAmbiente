@@ -45,7 +45,7 @@
       <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
 		  <li class="nav-item">
-			  <a class="nav-link" href="index.html">
+			  <a class="nav-link" href="index.jsp">
 				  <i class="fas fa-arrow-left"></i>
 				  <span>REGRESO AL INICIO</span>
 			  </a>

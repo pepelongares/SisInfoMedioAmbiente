@@ -76,7 +76,6 @@ public class UploadFileServlet extends HttpServlet {
     		grupoUsuario = fachada.getGrupoUsuario(email);
     		int idGrupo = grupoUsuario.getId();
 
-    		// TODO: Aqui obtener el idEntrada de la ultima entrada
     	    int idEntrada = -1;
     		idEntrada = fachada.getUltimoId();
        
@@ -119,10 +118,10 @@ public class UploadFileServlet extends HttpServlet {
             EntradaVO entradaNueva = new EntradaVO(null, 0, idGrupo, blog_title, "img/"+ aux, blog_challenge, blog_advice,
         			idEntrada+1, blog_body, c1, c2);
             
-            fachada.anyadirEntrada(entradaNueva);
-            //String page = request.getHeader("Referer").replaceAll("http://localhost:8080/SistemasInformacion/", "");
-	        //System.out.println(page);
-	        response.sendRedirect("index.jsp");
+            boolean sucess = fachada.anyadirEntrada(entradaNueva);
+            
+            request.setAttribute("sucess", String.valueOf(sucess));
+            request.getRequestDispatcher("alumnoAdmin.jsp").forward(request, response);
     	}catch (Throwable theException) {
     		
     	}

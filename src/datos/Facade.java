@@ -122,7 +122,7 @@ public class Facade {
 	/**
 	 * @throws SQLException 
 	 */
-	public List<EntradaVO> getEntradasPrimeras(int offset){
+	public List<EntradaVO> getEntradasPrimeras(int offset) throws SQLException{
 		
 		Connection conexion = null;
 		List<EntradaVO> result = new ArrayList<EntradaVO>();
@@ -132,6 +132,48 @@ public class Facade {
 			
 		}catch(Exception e) {
 			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * @throws SQLException 
+	 */
+	public List<Integer> consigueIdsEntradas() throws SQLException{
+		
+		Connection conexion = null;
+		List<Integer> result = new ArrayList<Integer>();
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = EntradaDAO.obtenerIdsEntradas(conexion);
+			
+		}catch(Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		System.out.println("Lista: " +result);
+		return result;
+	}
+	
+	/**
+	 * @throws SQLException 
+	 */
+	public List<UsuarioVO> getTopCinco() throws SQLException{
+		
+		Connection conexion = null;
+		List<UsuarioVO> result = new ArrayList<UsuarioVO>();
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = UsuarioDAO.topCinco(conexion);
+			
+		}catch(Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
 		}
 		
 		return result;
@@ -141,7 +183,7 @@ public class Facade {
 	/**
 	 * @throws SQLException 
 	 */
-	public EntradaVO getEntradaId(int id){
+	public EntradaVO getEntradaId(int id) throws SQLException{
 		
 		Connection conexion = null;
 		EntradaVO result = null;
@@ -151,6 +193,8 @@ public class Facade {
 			
 		}catch(Exception e) {
 			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
 		}
 		
 		return result;
@@ -161,8 +205,9 @@ public class Facade {
 	 * Devuelve el grupo que identificado por idGrupo
 	 * @param idGrupo
 	 * @return
+	 * @throws SQLException 
 	 */
-	public GrupoVO getGrupoEntrada(int idGrupo) {
+	public GrupoVO getGrupoEntrada(int idGrupo) throws SQLException {
 		Connection conexion = null;
 		GrupoVO result = null;
 		try {
@@ -172,17 +217,20 @@ public class Facade {
 			
 		}catch(Exception e) {
 			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
 		}
 		
 		return result;
 	}
 	
 	/**
-	 * Devuelve el grupo que identificado por idGrupo
-	 * @param idGrupo
+	 * Devuelve el cuestionario de idEntrada y tipo
+	 * @param idEntrada, tipo
 	 * @return
+	 * @throws SQLException 
 	 */
-	public CuestionarioVO consigueCuestionario(int idEntrada, int tipo) {
+	public CuestionarioVO consigueCuestionario(int idEntrada, int tipo) throws SQLException {
 		Connection conexion = null;
 		CuestionarioVO result = new CuestionarioVO();
 		try {
@@ -191,6 +239,24 @@ public class Facade {
 			
 		}catch(Exception e) {
 			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	public List<RespuestaVO> consigueRespuestas(int id, int tipo) throws SQLException {
+		Connection conexion = null;
+		List<RespuestaVO> result = new ArrayList<RespuestaVO>();
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = RespuestaDAO.obtenerRespuestas(id, tipo, conexion);
+			
+		}catch(Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
 		}
 		
 		return result;
@@ -308,5 +374,7 @@ public class Facade {
 		}
 		return result;
 	}
+	
+	
 	
 }

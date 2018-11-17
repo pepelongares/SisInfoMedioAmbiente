@@ -35,6 +35,34 @@ public class EntradaDAO {
 		
 	}
 	
+	/**
+	 * Devuelve los ids de las n-1 entradas. La primera, la mas moderna no la pone
+	 * @param conexion
+	 * @return
+	 */
+	public static List<Integer> obtenerIdsEntradas(Connection conexion) {
+		String query = "SELECT id FROM Entrada ORDER BY fecha DESC";
+		List<Integer> result = new ArrayList<Integer>();
+		
+		try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+
+			ResultSet rs = ps.executeQuery(); //Se ejecuta la query
+			
+			while(rs.next()) {
+				result.add(rs.getInt("id")); 
+			}
+		}catch(SQLException se) {
+   		 	se.printStackTrace(); 
+   	 	}catch(Exception e) {
+   	 		e.printStackTrace(System.err);
+   	 	}
+		result.remove(0);	// Se elimina la cabeza de la list
+		System.out.println("Lista de ids" + result);
+		return result;
+		
+	}
+	
 	/*
 	 * Obtiene todas las entradas guardadas en la base de datos
 	 */
