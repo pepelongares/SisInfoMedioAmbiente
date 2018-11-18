@@ -71,15 +71,31 @@ public class LoginServlet extends HttpServlet {
 			        response.addCookie(cookiee);
 			        response.addCookie(cookiep);
 			        request.setAttribute("user", correo);
+			        System.out.println(request.getHeader("Referer"));
 			        String page = request.getHeader("Referer").replaceAll("http://localhost:8080/SistemasInformacion/", "");
-			        System.out.println(page);
+			        page = page.replace("?loginCorrecto=0", "");
+			        page = page.replace("&loginCorrecto=0", "");
+			        System.out.println("Pagina: " +page);
 			        if(page.contentEquals("pagina_registro.jsp")) {
 			        	page = "index.jsp";
 			        }
 			        response.sendRedirect(page);
 				}
-			}else {
-				
+			}else {		// Usuario nulo, el login no ha ido bien
+				System.out.println("Login incorrecto");
+				String page2 = request.getHeader("Referer").replaceAll("http://localhost:8080/SistemasInformacion/", "");
+				System.out.println(page2);
+				if(page2.contentEquals("pagina_registro.jsp")) {
+					
+				}else {
+					if(page2.contains("?")) {
+						page2 = page2 + "&loginCorrecto=0";
+					}else {
+						page2 = page2 + "?loginCorrecto=0";
+					}
+					
+				}
+				response.sendRedirect(page2);
 			}
 			
 			

@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="ISO-8859-1"%>
+%>
 <!DOCTYPE html>
 <html>
-
-  <head>
-
-    <meta charset=”utf8″ />
+<head>
+	<link rel="icon" href="img/icono.png" type="image/png" sizes="32x32">
+	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -100,7 +99,7 @@
 <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="" style="color:#000000;" onclick ="window.history.go(-1); return false;">Universidad de Zaragoza</a>
+        <a class="navbar-brand" href="index.jsp" style="color:#000000;" >Universidad de Zaragoza</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fas fa-bars"></i>
@@ -133,7 +132,17 @@
             }else{
             	out.write("<li class=\"nav-item\">");
             	out.write("<a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" style=\"color:#000000;\">Iniciar Sesion<span class=\"caret\"></span></a>");
-            	out.write("<ul id=\"login-dp\" style=\"left: 70%;\" class=\"dropdown-menu\">");
+            	String loginCorrecto = request.getParameter("loginCorrecto");
+            	System.out.println(loginCorrecto);
+            	if(loginCorrecto != null){
+            		if(loginCorrecto.contentEquals("0")){
+            			out.write("<ul id=\"login-dp\" style=\"left: 70%;\" class=\"dropdown-menu show\">");
+            		}else{
+            			out.write("<ul id=\"login-dp\" style=\"left: 70%;\" class=\"dropdown-menu\">");
+            		}
+            	}else{
+            		out.write("<ul id=\"login-dp\" style=\"left: 70%;\" class=\"dropdown-menu\">");
+            	}
             	out.write("<li>");
             	out.write("<div class=\"row\">");
             	out.write("<div class=\"col-md-10 offset-md-1\">");
@@ -152,7 +161,13 @@
             	out.write("</div>");
             	out.write("<div class=\"checkbox\">");
             	out.write("<label>");
-            	out.write("<input type=\"checkbox\"> Mantener la sesión");
+            	if(loginCorrecto != null){
+            		if(loginCorrecto.contentEquals("0")){
+            		out.write("<div class=\"alert alert-danger\">"+
+          				  "Login incorrecto."+
+          				  "</div>");
+            		}
+            	}
             	out.write("</label>");
             	out.write("</div>");
             	out.write("</form>");

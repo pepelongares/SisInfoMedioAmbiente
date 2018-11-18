@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="ISO-8859-1"%>
+%>
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="icon" href="img/icono.png" type="image/png" sizes="32x32">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -86,7 +87,7 @@
 <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="" style="color:#000000;" onclick ="window.history.go(-1); return false;">Universidad de Zaragoza</a>
+        <a class="navbar-brand" href="index.jsp" style="color:#000000;">Universidad de Zaragoza</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fas fa-bars"></i>
@@ -129,16 +130,16 @@
             	out.write("<input type=\"email\" name =\"emailLogin\" class=\"form-control\" placeholder=\"Email\" required> ");
             	out.write("</div>");
             	out.write("<div class=\"form-group\">");
-            	out.write("<label class=\"sr-only\" for=\"passWordLogin\">Contraseña</label>");
-            	out.write("<input type=\"password\" name =\"passWordLogin\" class=\"form-control\" placeholder=\"Contraseña\" required> ");
-            	out.write("<div class=\"help-block text-right\"><a href=\"\">Has olvidado la contraseña?</a></div>");
+            	out.write("<label class=\"sr-only\" for=\"passWordLogin\">ContraseÃ±a</label>");
+            	out.write("<input type=\"password\" name =\"passWordLogin\" class=\"form-control\" placeholder=\"ContraseÃ±a\" required> ");
+            	out.write("<div class=\"help-block text-right\"><a href=\"\">Has olvidado la contraseÃ±a?</a></div>");
             	out.write("</div>");
             	out.write("<div class=\"form-group\">");
             	out.write("<input type=\"submit\" class=\"btn btn-primary btn-block\" value=\"Iniciar Sesion\">");
             	out.write("</div>");
             	out.write("<div class=\"checkbox\">");
             	out.write("<label>");
-            	out.write("<input type=\"checkbox\"> Mantener la sesión");
+            	out.write("<input type=\"checkbox\"> Mantener la sesiÃ³n");
             	out.write("</label>");
             	out.write("</div>");
             	out.write("</form>");
@@ -198,7 +199,7 @@
                         <tr>
                             <th style=text-align:center;>Puesto</th>
                             <th style=text-align:center;>Usuario</th>
-                            <th style=text-align:center;>Puntuación</th>
+                            <th style=text-align:center;>PuntuaciÃ³n</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -206,7 +207,7 @@
                         	int i = 1;
                         	for(UsuarioVO usuario : top5){
                         		out.write("<tr>");
-                        		out.write("<td class=\"align-middle text-center\"><p>"+Integer.toString(i)+"º</p></td>");
+                        		out.write("<td class=\"align-middle text-center\"><p>"+Integer.toString(i)+"Âº</p></td>");
                         		out.write("<td class=\"align-middle text-center\">" + usuario.getName() + "</td>");
                         		out.write("<td class=\"align-middle text-center\">" + usuario.getPuntuation() + " puntos</td>");
                         		out.write("</tr>");

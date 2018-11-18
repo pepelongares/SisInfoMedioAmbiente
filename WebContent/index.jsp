@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="ISO-8859-1"%>
+%>
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="icon" href="img/icono.png" type="image/png" sizes="32x32">
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -103,7 +104,18 @@
             }else{
             	out.write("<li class=\"nav-item\">");
             	out.write("<a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">Iniciar Sesion<span class=\"caret\"></span></a>");
-            	out.write("<ul id=\"login-dp\" style=\"left: 70%;\" class=\"dropdown-menu\">");
+            	String loginCorrecto = request.getParameter("loginCorrecto");
+            	System.out.println(loginCorrecto);
+            	if(loginCorrecto != null){
+            		if(loginCorrecto.contentEquals("0")){
+            			out.write("<ul id=\"login-dp\" style=\"left: 70%;\" class=\"dropdown-menu show\">");
+            		}else{
+            			out.write("<ul id=\"login-dp\" style=\"left: 70%;\" class=\"dropdown-menu\">");
+            		}
+            	}else{
+            		out.write("<ul id=\"login-dp\" style=\"left: 70%;\" class=\"dropdown-menu\">");
+            	}
+            	
             	out.write("<li>");
             	out.write("<div class=\"row\">");
             	out.write("<div class=\"col-md-10 offset-md-1\">");
@@ -113,16 +125,22 @@
             	out.write("<input type=\"email\" name =\"emailLogin\" class=\"form-control\" placeholder=\"Email\" required> ");
             	out.write("</div>");
             	out.write("<div class=\"form-group\">");
-            	out.write("<label class=\"sr-only\" for=\"passWordLogin\">Contraseña</label>");
-            	out.write("<input type=\"password\" name =\"passWordLogin\" class=\"form-control\" placeholder=\"Contraseña\" required> ");
-            	out.write("<div class=\"help-block text-right\"><a href=\"\">Has olvidado la contraseña?</a></div>");
+            	out.write("<label class=\"sr-only\" for=\"passWordLogin\">ContraseÃ±a</label>");
+            	out.write("<input type=\"password\" name =\"passWordLogin\" class=\"form-control\" placeholder=\"ContraseÃ±a\" required> ");
+            	out.write("<div class=\"help-block text-right\"><a href=\"\">Has olvidado la contraseÃ±a?</a></div>");
             	out.write("</div>");
             	out.write("<div class=\"form-group\">");
             	out.write("<input type=\"submit\" class=\"btn btn-primary btn-block\" value=\"Iniciar Sesion\">");
             	out.write("</div>");
             	out.write("<div class=\"checkbox\">");
             	out.write("<label>");
-            	out.write("<input type=\"checkbox\"> Mantener la sesión");
+            	if(loginCorrecto != null){
+            		if(loginCorrecto.contentEquals("0")){
+            		out.write("<div class=\"alert alert-danger\">"+
+          				  "Login incorrecto."+
+          				  "</div>");
+            		}
+            	}
             	out.write("</label>");
             	out.write("</div>");
             	out.write("</form>");
@@ -152,7 +170,7 @@
           <div class="col-lg-8 col-md-10 mx-auto">
             <div class="site-heading">
               <h1>MEDIOAMBIENTE</h1>
-              <span class="subheading">Problemáticas sobre el medioAmbiente</span>
+              <span class="subheading">ProblemÃ¡ticas sobre el medioAmbiente</span>
             </div>
           </div>
         </div>
@@ -247,7 +265,7 @@
 	    }
 	  },
 	  "content": {
-	    "message": "Utilizamos cookies propias y de terceros para obtener datos estadísticos de la navegación de nuestros usuarios y mejorar nuestros servicios. Si acepta o continúa navegando, consideramos que acepta su uso.",
+	    "message": "Utilizamos cookies propias y de terceros para obtener datos estadÃ­sticos de la navegaciÃ³n de nuestros usuarios y mejorar nuestros servicios. Si acepta o continÃºa navegando, consideramos que acepta su uso.",
 	    "dismiss": "Lo tengo!",
 	    "link": "Leer mas",
 	    "href": "PoliticaCookies.html"

@@ -34,7 +34,9 @@ public class CargarEntrada extends HttpServlet {
 		System.out.println("ME han llamado");
 		String id = request.getParameter("id"); 
 		System.out.println(id);
-		request.getRequestDispatcher( "entrada.jsp?id="+id ).forward( request, response );
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		response.sendRedirect("entrada.jsp?id="+id);
 		
 	}
 
