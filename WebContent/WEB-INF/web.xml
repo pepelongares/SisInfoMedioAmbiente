@@ -28,6 +28,9 @@
 </servlet><servlet>
   	<servlet-name>EliminarUsuario</servlet-name>
   	<servlet-class>control.EliminarUsuario</servlet-class>
+</servlet><servlet>
+  	<servlet-name>SubirRespuesta</servlet-name>
+  	<servlet-class>control.SubirRespuesta</servlet-class>
 </servlet><servlet-mapping>
   	<servlet-name>CargarEntrada</servlet-name>
   	<url-pattern>/CargarEntrada.do</url-pattern>
@@ -51,10 +54,14 @@
   <servlet-mapping>
   	<servlet-name>UploadFileServlet</servlet-name>
   	<url-pattern>/UploadFileServlet.do</url-pattern>
+  </servlet-mapping><servlet-mapping>
+  	<servlet-name>SubirRespuesta</servlet-name>
+  	<url-pattern>/SubirRespuesta.do</url-pattern>
   </servlet-mapping>
   <jsp-config>
   	<jsp-property-group>
   		<url-pattern>*.jsp</url-pattern>
   		<page-encoding>UTF-8</page-encoding>
   	</jsp-property-group></jsp-config>
+  
 </web-app>

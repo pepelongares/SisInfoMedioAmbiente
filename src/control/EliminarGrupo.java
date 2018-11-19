@@ -16,14 +16,14 @@ import datos.Facade;
 /**
  * Servlet para la el login de los usuarios del sistema 
  */
-@WebServlet("/EliminarUsuario")
-public class EliminarUsuario extends HttpServlet {
+@WebServlet("/EliminarGrupo")
+public class EliminarGrupo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public EliminarUsuario() {
+    public EliminarGrupo() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -46,13 +46,13 @@ public class EliminarUsuario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String correo = request.getParameter("email");
+		int id = Integer.parseInt(request.getParameter("id"));
 		
 		Facade fachada = new Facade();
 		boolean haPodido = false;
 		try {
-			fachada.borrarContestaciones(correo);
-			haPodido = fachada.eliminarUsuario(correo);
+			
+			haPodido = fachada.borrarGrupo(id);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

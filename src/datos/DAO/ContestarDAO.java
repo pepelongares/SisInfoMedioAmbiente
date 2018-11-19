@@ -16,7 +16,7 @@ public class ContestarDAO {
 	 * Obtiene todas las respuestas de los usuarios 
 	 */
 	
-    public List <ContestarVO> getRespuestas(Connection conexion) {
+    public static List <ContestarVO> getRespuestas(Connection conexion) {
 		
     	List<ContestarVO> retVal = new ArrayList<ContestarVO>();	
 	   try{			  
@@ -36,7 +36,7 @@ public class ContestarDAO {
 	/*
 	 * Devuelve los correos de la gente que ha contestado a esa pregunta con esa respuesta
 	 */
-	public List <ContestarVO> consigueCorreos(int idEntrada,int tipo,int posPregunta,Connection conexion) {
+	public static List <ContestarVO> consigueCorreos(int idEntrada,int tipo,int posPregunta,Connection conexion) {
 		
 		List<ContestarVO> retVal = new ArrayList<ContestarVO>();	
 		  try{			  
@@ -61,7 +61,7 @@ public class ContestarDAO {
     /*
      * Devuelve si el usuario ha contestado al cuestionario
      */
-    public boolean haContestado(String correo,int idEntrada,int tipo,Connection conexion) {
+    public static boolean haContestado(String correo,int idEntrada,int tipo,Connection conexion) {
 		
 		boolean retVal = false;	
 		  try{			  
@@ -87,10 +87,11 @@ public class ContestarDAO {
      * @param conexion
      * @return
      */
-    public boolean anyadirContestacion(ContestarVO contestacion,Connection conexion){
+    public static boolean anyadirContestacion(ContestarVO contestacion,Connection conexion){
         boolean retVal = false;
-         String query = "INSERT INTO entrada (idEntrada,tipo,correo,posPregunta) VALUES "+
+         String query = "INSERT INTO contestar (idEntrada, tipo, correo, posPregunta) VALUES "+
         " (?,?,?,?)";
+         
         
         try{
             PreparedStatement ps = conexion.prepareStatement(query);
@@ -104,7 +105,7 @@ public class ContestarDAO {
 	    if(rs == 0) {
 	          throw new SQLException("ERROR: Algun parametro incorrecto");			}
             else { //Si ha podido registrarse, devuelve el mismo objeto
-		retVal = true; 
+            	retVal = true; 
             }
         }
         catch(SQLException e){
@@ -113,7 +114,34 @@ public class ContestarDAO {
         return retVal;
     }
     
-    
+    /**
+     * Añade a la base de datos una nueva contestacion de un usuario
+     * @param contestacion
+     * @param conexion
+     * @return
+     */
+    public static boolean borrarContestacion(String correo, Connection conexion){
+        boolean retVal = false;
+         String query = "DELETE FROM Contestar WHERE correo= ?";
+         
+        
+        try{
+            PreparedStatement ps = conexion.prepareStatement(query);
+            ps.setString(1, correo);
+          // Se ejecuta la adicion
+	   int rs = ps.executeUpdate();			
+	   // Si no ha podido registrarse, es por que algun parametro es incorrecto
+	    if(rs == 0) {
+	          throw new SQLException("ERROR: Algun parametro incorrecto");			}
+            else { //Si ha podido registrarse, devuelve el mismo objeto
+            	retVal = true; 
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return retVal;
+    }
 	
 
 }

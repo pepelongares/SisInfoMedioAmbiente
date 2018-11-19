@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -103,8 +105,8 @@ input::-webkit-input-placeholder {
 			<div class="row">
 				<div class="panel-heading">
 	               <div class="panel-title text-center">
-	               		<h1 class="title">MedioAmbiente</h1>
-	               		<hr />
+	               		<h1 class="site-heading">EcoUnizar</h1>
+	               		<hr/>
 	               	</div>
 	            </div> 
 				<div class="main-login main-center">
@@ -132,32 +134,32 @@ input::-webkit-input-placeholder {
 						</div>
 						
 						<div class="form-group">
-							<label for="name" class="cols-sm-2 control-label">Año de Nacimiento</label>
+							<label for="name" class="cols-sm-2 control-label">AÃ±o de Nacimiento</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-									<input type="number" min="1900" max="2018" class="form-control" name="edad" id="edad"  placeholder="Ingresa tu año de nacimiento" required>
+									<input type="number" min="1900" max="2018" class="form-control" name="edad" id="edad"  placeholder="Ingresa tu aÃ±o de nacimiento" required>
 								</div>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="password" class="cols-sm-2 control-label">Contraseña</label>
+							<label for="password" class="cols-sm-2 control-label">ContraseÃ±a</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" data-minlength="6" class="form-control" id="inputPassword" name= "inputPassword" placeholder="Ingresa aqui tu contraseña" required>
+									<input type="password" data-minlength="6" class="form-control" id="inputPassword" name= "inputPassword" placeholder="Ingresa aqui tu contraseÃ±a" required>
 								</div>
 								<div class="help-block">Minimo de 6 caracteres</div>
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label for="confirm" class="cols-sm-2 control-label">Confirmar Contraseña</label>
+							<label for="confirm" class="cols-sm-2 control-label">Confirmar ContraseÃ±a</label>
 							<div class="cols-sm-10">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-									<input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Las contraseñas no coinciden" placeholder="Confirma tu contraseña" required>
+									<input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Las contraseÃ±as no coinciden" placeholder="Confirma tu contraseÃ±a" required>
         							
 								</div>
 							</div>

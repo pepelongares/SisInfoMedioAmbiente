@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Blog</title>
+    <!-- <title>Blog</title> -->
 
     <!-- Stylesheet de Bootstrap -->
 	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -70,6 +70,7 @@
 		
 		try{
 			entrada = fachada.getEntradaId(id);
+			out.write("<title>"+ entrada.getTitulo() +"</title>");
 			System.out.println(entrada);
 			grupo = fachada.getGrupoEntrada(entrada.getIdGrupo());
 			System.out.println(fachada.getGrupoUsuario(login));
@@ -78,13 +79,12 @@
 			respOpinion = fachada.obtenerRespuestas(entrada.getId(), 0);
 			respPregunta = fachada.obtenerRespuestas(entrada.getId(), 1);
 			if(!login.equals("")){
-				haContestadoOpinion = fachada.haContestado(login, 0, entrada.getId());
-				haContestadoPregunta = fachada.haContestado(login,1, entrada.getId());
+				haContestadoOpinion = fachada.haContestado(login, 1, entrada.getId());	// Opinion 1
+				haContestadoPregunta = fachada.haContestado(login,0, entrada.getId());	// Pregunta 0
 				GrupoVO grupo2 = fachada.getGrupoUsuario(login);
 				System.out.println(grupo);
 				System.out.println(grupo2);
 				if(grupo2.equals(grupo)){
-					System.out.println("Ha entrado en el primer if");
 					esPropietario = true;
 					haContestadoPregunta = true;
 				}
@@ -99,7 +99,7 @@
 <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
       <div class="container">
-        <a class="navbar-brand" href="index.jsp" style="color:#000000;" >Universidad de Zaragoza</a>
+        <a class="navbar-brand" href="index.jsp" style="color:#000000;" >EcoUnizar</a>
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
           Menu
           <i class="fas fa-bars"></i>
@@ -225,12 +225,17 @@
 			<%
 				out.write("<h2 class=\"section-heading\">Cuestionario sobre el medio ambiente</h2>");
 				out.write("<h6>"+ pregunta.getPregunta() +"</h6>");
+				out.write("<form class=\"form\" action =\"SubirRespuesta\" method=\"post\" role=\"form\" accept-charset=\"UTF-8\" id=\"\">");
 				if(!login.equals("") && haContestadoPregunta == false){ // No ha contestado
+					int i = 1;
 					for(RespuestaVO respuesta : respPregunta){
 						out.write("<div class=\"radio\">");
-						out.write("<label><input type=\"radio\" name=\"optradio\"> "+ respuesta.getCuerpo() +"</label>");
+						out.write("<label><input type=\"radio\" name=\"optRadio1\" value="+i+"> "+ respuesta.getCuerpo() +"</label>");
 						out.write("</div>");
+						i++;
 					}
+					out.write("<input type=\"text\" class=\"form-control\" name=\"login\" style=\"display:none\" value=\""+login+"\">");
+					out.write("<input type=\"text\" class=\"form-control\" name=\"id\" style=\"display:none\" value=\""+id+"\">");
 					out.write("<input class=\"btn btn-success\" type=\"submit\" value=\"Enviar\">");
 				}else{ // Si que ha contestado, no mostrar botones habilitados
 					for(RespuestaVO respuesta : respPregunta){
@@ -255,11 +260,15 @@
 			out.write("<h2 class=\"section-heading\">Danos tu opini&oacute;n</h2>");
 			out.write("<h6>"+ pregunta.getPregunta() +"</h6>");
 			if(!login.equals("") && haContestadoOpinion == false ){ // No ha contestado
+				int i = 1;
 				for(RespuestaVO respuesta : respOpinion){
 					out.write("<div class=\"radio\">");
-					out.write("<label><input type=\"radio\" name=\"optradio\"> "+ respuesta.getCuerpo() +"</label>");
+					out.write("<label><input type=\"radio\" name=\"optRadio2\" value="+i+"> "+ respuesta.getCuerpo() +"</label>");
 					out.write("</div>");
+					i++;
 				}
+				out.write("<input type=\"text\" class=\"form-control\" name=\"login\" style=\"display:none\" value=\""+login+"\">");
+				out.write("<input type=\"text\" class=\"form-control\" name=\"id\" style=\"display:none\" value=\""+id+"\">");
 				out.write("<input class=\"btn btn-success\" type=\"submit\" value=\"Enviar\">");
 			}else{ // Si que ha contestado, no mostrar botones habilitados
 				for(RespuestaVO respuesta : respOpinion){
@@ -341,7 +350,7 @@
                 </a>
               </li>
             </ul>
-            <p class="copyright text-muted">Copyright &copy; MEDIOAMBIENTE</p>
+            <p class="copyright text-muted">Copyright &copy; ECOUNIZAR</p>
           </div>
         </div>
       </div>

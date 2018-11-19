@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="ISO-8859-1"%>
+%>
 <!DOCTYPE html>
 
 <html>
@@ -23,14 +23,58 @@
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.min.css" rel="stylesheet">
 
-	<title>Página del ADMIN</title>
+	<title>PÃ¡gina del ADMIN</title>
 	
 	<%@ page import="datos.VO.UsuarioVO" %>
+	<%@ page import="datos.VO.GrupoVO" %>
 	<%@ page import="datos.Facade" %>
+	<%@ page import="java.util.List" %>
+	<%@ page import="java.util.ArrayList" %>
 	
 </head>
 
 <body id="page-top">
+<%
+//Caches
+	String login = null;
+ 	String pass = null;
+ 	try {
+   		Cookie[] cookies = request.getCookies(); 
+   		if (cookies != null) {
+     		for (int i = 0; i < cookies.length; i++) {
+       			if (cookies[i].getName().equals("email")) {
+         			login = cookies[i].getValue();
+         			System.out.println("Login: "+login);
+       
+			          }
+       			if (cookies[i].getName().equals("password")) {
+         			pass = cookies[i].getValue();
+         			System.out.println("Pass: "+pass);
+       			}
+     		}
+   		}
+ 	} catch (Exception e) {
+   		e.printStackTrace(System.err);
+   		
+ 	}
+ 	
+ 	Facade fachada = new Facade();
+ 	
+ 	// Usuario no permitido
+ 	if(login == null){
+ 		System.out.println("USUARIO EXTERNO NO LOGEADO");
+ 		out.write("<script>");
+ 		out.write("window.location = \"index.jsp\";");
+ 		out.write("</script>");
+ 	}else if(fachada.consigueTipo(login) != 0){
+ 		System.out.println("USUARIO SIN PERMISOS");
+ 		out.write("<script>");
+ 		out.write("window.location = \"index.jsp\";");
+ 		out.write("</script>");	
+ 	}
+
+	
+%>
 
 	<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 	
@@ -56,9 +100,10 @@
             <span>Administrar</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+          	<a class="dropdown-item" href="#" onclick="mostrarAyuda()">Ayuda</a>
+            <a class="dropdown-item" href="#" onclick="mostrarGrupo()">Administrar grupos</a>
             <a class="dropdown-item" href="#" onclick="mostrarAlta()">Dar de Alta</a>
             <a class="dropdown-item" href="#" onclick="mostrarBaja()">Dar de Baja</a>
-            <a class="dropdown-item" href="#" onclick="mostrarModificar()">Modificar datos</a>
           </div>
         </li>
       </ul>
@@ -66,59 +111,158 @@
       <div id="content-wrapper">
 
         <div class="container-fluid">
+        
+        <%
+				String value = (String) request.getParameter("res");
+    			String value2 = (String) request.getAttribute("res");
+				if(value != null){
+					if(value.equals("1")){
+						out.write("<div class=\"alert alert-success alert-dismissible\">");
+						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
+		  				out.write("<strong>Â¡Hecho!</strong>");
+		  				out.write("</div>");
+					}else if(value.equals("0")){
+						out.write("<div class=\"alert alert-danger alert-dismissible\">");
+						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
+		  				out.write("<strong>Â¡Error!</strong>");
+		  				out.write("</div>");
+					}	
+				}
+			%>
 
           <!-- Principal-->
           <div class="row" id="principal">
+          
+          <!-- Panel de Ayuda -->
+          <div class="container" id="principal3" style="display:block;">
+				<div class="card card-register mx-auto mt-5">
+				<div class="card-header">Ayuda</div>
+				<div class="card-body">
+					<div class="form-group">
+						  <div class="form-label-group">
+							<h2 align="center">Bienvenido al panel de administrador</h2>
+							<h6>Desde el panel izquierdo se pueden realizar todas las acciones de administraciÃ³n</h6>
+							<hr>
+							<ul>
+							<li>Ayuda: Muestra este panel</li>
+							<li>Administrar grupos: Permite crear nuevos grupos y eliminar los existentes</li>
+							<li>Dar de Alta: Permite aÃ±adir nuevos usuarios al sistema</li>
+							<li>Dar de Baja: Permite eliminar usuarios del sistema, o ver los existentes</li>
+							</ul>
+						  </div>
+					</div>
+				</div>
+			  </div>
+			  <br/>
+			  
+			  
+			</div>
+			
+          
+          <!-- Panel de crear grupo -->
+          <div class="container" id="principal0" style="display:none;">
+				<div class="card card-register mx-auto mt-5">
+				<div class="card-header">Crear grupo</div>
+				<div class="card-body">
+				  <form class="form" action ="CrearGrupo" method="post" role="form" accept-charset="UTF-8">
+					<div class="form-group">
+						  <div class="form-label-group">
+							<input type="text" name="name" id="name1" class="form-control" placeholder="Nombre completo" required="required" autofocus="autofocus">
+							<label for="name1">Nombre del Grupo</label>
+						  </div>
+					</div>
+
+					<input type="submit" class="btn btn-success btn-block" value="AÃ±adir Grupo">
+				  </form>
+				</div>
+			  </div>
+			  <br/>
+			  <div class="card card-register mx-auto mt-5">
+				<div class="card-header">Grupos ya creados</div>
+			  <div class="card-body">
+					<div class="form-group">
+						 <table class="table table-bordered table-sm m-0">
+                        <thead class="">
+                        <tr>
+                            <th style=text-align:center;>ID</th>
+                            <th style=text-align:center;>Nombre</th>
+                            <th style=text-align:center;>Eliminar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                        
+                        List<GrupoVO> grupos = fachada.obtenerGrupos();
+                        for(GrupoVO grupo : grupos){
+                        	out.write("<form action=\"EliminarGrupo\" method=\"get\">");
+                        	out.write("<tr>");
+                        	out.write("<td class=\"align-middle text-center\">" + "<input type=\"text\" name=\"id\" value=\"" + grupo.getId() + "\" readonly>"+"</td>");
+                    		out.write("<td class=\"align-middle text-center\">" + grupo.getNombre() + "</td>");
+                    		out.write("<td class=\"align-middle text-center\">" + "<input type=\"submit\" value=\"Eliminar\" class=\"btn btn-danger btn-block\"></td>");
+                    		out.write("</tr>");	
+                    		out.write("</form>");
+                        }
+                        
+                        
+                        %>
+                        </tbody>
+                        </table>
+					</div>
+
+				</div>
+				</div>
+			  
+			</div>
 		  
 		  
 		  <!-- Panel de registrar -->
 				<div class="container" id="principal1" style="display:none;">
 				<div class="card card-register mx-auto mt-5">
-				<div class="card-header">Añadir usuario</div>
+				<div class="card-header">AÃ±adir usuario</div>
 				<div class="card-body">
 				  <form class="form" action ="RegistrarUsuario" method="post" role="form" accept-charset="UTF-8">
 					<div class="form-group">
 						  <div class="form-label-group">
-							<input type="text" name="name" id="name1" class="form-control" placeholder="Nombre completo" required="required" autofocus="autofocus">
-							<label for="name1">Nombre</label>
+							<input type="text" name="name" id="name2" class="form-control" placeholder="Nombre completo" required="required" autofocus="autofocus">
+							<label for="name2">Nombre</label>
 						  </div>
 					</div>
 					<div class="form-group">
 					  <div class="form-label-group">
-						<input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required="required">
-						<label for="inputEmail">Email</label>
+						<input type="email" name="email" id="inputEmail2" class="form-control" placeholder="Email address" required="required">
+						<label for="inputEmail2">Email</label>
 					  </div>
 					</div>
 					<div class="form-group">
 					  <div class="form-label-group">
-						<input type="number" name="edad" id="edad" class="form-control" placeholder="Año Nacimiento" required="required">
-						<label for="edad">Año Nacimiento</label>
+						<input type="number" name="edad" id="edad2" class="form-control" placeholder="AÃ±o Nacimiento" required="required">
+						<label for="edad2">AÃ±o Nacimiento</label>
 					  </div>
 					</div>
 					<div class="form-group">
 					  <div class="form-label-group">
-						<input type="number" name="grupo" id="grupo" class="form-control" placeholder="Grupo asignar" required="required">
-						<label for="grupo">Grupo Asignado</label>
+						<input type="number" name="grupo" id="grupo2" class="form-control" placeholder="Grupo asignar" required="required">
+						<label for="grupo2">Grupo Asignado</label>
 					  </div>
 					</div>
 					<div class="form-group">
 					  <div class="form-label-group">
-						<input type="number" name="rol" id="rol" class="form-control" placeholder="Rol asignar" required="required">
-						<label for="rol">Rol asignado (0:Admin, 1:Profesor, 2:Alumno)</label>
+						<input type="number" name="rol" id="rol2" class="form-control" placeholder="Rol asignar" required="required">
+						<label for="rol2">Rol asignado (0:Admin, 1:Profesor, 2:Alumno)</label>
 					  </div>
 					</div>
 					<div class="form-group">
 					  <div class="form-row">
 						<div class="col-md-6">
 						  <div class="form-label-group">
-							<input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Password" required="required">
-							<label for="inputPassword">Contraseña</label>
+							<input type="password" name="inputPassword" id="inputPassword2" class="form-control" placeholder="Password" required="required">
+							<label for="inputPassword2">ContraseÃ±a</label>
 						  </div>
 						</div>
 						<div class="col-md-6">
 						  <div class="form-label-group">
-							<input type="password" id="confirmPassword" class="form-control" placeholder="Confirm password" required="required">
-							<label for="confirmPassword">Repita Contraseña</label>
+							<input type="password" id="confirmPassword2" class="form-control" placeholder="Confirm password" required="required">
+							<label for="confirmPassword2">Repita ContraseÃ±a</label>
 						  </div>
 						</div>
 					  </div>
@@ -128,81 +272,48 @@
 				</div>
 			  </div>
 			</div>
-			<!-- FIN PANEL DE AÑADIR USUARIO -->
-			
-			<!-- Panel de eliminar usuario -->
-				<div class="container" id="principal2" style="display:none;">
+			<!-- FIN PANEL DE AÃ‘ADIR USUARIO -->
+			<div class="container" id="principal2" style="display:none;">
 				<div class="card card-register mx-auto mt-5">
-				<div class="card-header">Eliminar usuario</div>
+				<div class="card-header">Eliminar Usuarios</div>
 				<div class="card-body">
-				  <form class="form" action ="EliminarUsuario" method="post" role="form" accept-charset="UTF-8">
-					<div class="form-group">
-					  <div class="form-label-group">
-						<input type="email" name = "email2" id="inputEmail2" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
-						<label for="inputEmail2">Email</label>
-					  </div>
-					</div>
-					<div class="form-group">
-						  <div class="form-label-group">
-							<input type="text" id="inputText" class="form-control" placeholder="Borrar" required="required">
-							<label for="inputText">Escriba BORRAR si desea borrar al usuario</label>
-						  </div>
-					</div>
-					<input type="submit" class="btn btn-success btn-block" value="Eliminar Usuario">
-				  </form>
-				</div>
-			  </div>
-			</div>
-			<!-- FIN PANEL DE ELIMINAR USUARIO -->
-			
-			<!-- Panel de modificar Usuario -->
-				<div class="container" id="principal3" style="display:none;">
-				<div class="card card-register mx-auto mt-5">
-				<div class="card-header">Modificar Usuario</div>
-				<div class="card-body">
-				  <form>
-					<div class="form-group">
-					  <div class="form-label-group">
-						<input type="email" name="email3" id="inputEmail3" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
-						<label for="inputEmail3">Email</label>
-					  </div>
-					</div>
-					<a class="btn btn-success btn-block" href="#" onclick="solicitarDatos()">Solicitar Datos</a></br>
-					<div class="form-group">
-						  <div class="form-label-group">
-							<input type="text" id="name2" class="form-control" placeholder="Nombre Completo" required="required" >
-							<label for="name2">Nombre</label>
-						  </div>
-					</div>
-					<div class="form-group">
-						  <div class="form-label-group">
-							<input type="number" id="edad2" class="form-control" placeholder="Año Nacimiento" required="required" >
-							<label for="edad2">Año Nacimiento</label>
-						  </div>
-					</div>
-					<div class="form-group">
-					  <div class="form-row">
-						<div class="col-md-6">
-						  <div class="form-label-group">
-							<input type="password" id="inputPassword2" class="form-control" placeholder="Password" required="required">
-							<label for="inputPassword2">Contraseña</label>
-						  </div>
-						</div>
-						<div class="col-md-6">
-						  <div class="form-label-group">
-							<input type="password" id="confirmPassword2" class="form-control" placeholder="Confirm password" required="required">
-							<label for="confirmPassword2">Repita Contraseña</label>
-						  </div>
-						</div>
-					  </div>
-					</div>
+					<table class="table table-bordered table-sm m-0">
+                        <thead class="">
+                        <tr>
+                            <th style=text-align:center;>Nombre</th>
+                            <th style=text-align:center;>Correo</th>
+                            <th style=text-align:center;>Eliminar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <%
+                        	List<UsuarioVO> usuarios = fachada.obtenerUsuarios();
+                        	for(UsuarioVO usuario : usuarios){
+                        		if(usuario.getRol() != 0){
+	                        		out.write("<form action=\"EliminarUsuario\" method=\"get\">");
+	                        		out.write("<tr>");
+	                        		out.write("<td class=\"align-middle text-center\">" + usuario.getName() + "</td>");
+	                        		out.write("<td class=\"align-middle text-center\">" + "<input type=\"email\" name=\"email\" value=\"" + usuario.getEmail() + "\" readonly>"+"</td>");
+	                        		out.write("<td class=\"align-middle text-center\">" + "<input type=\"submit\" value=\"Eliminar\" class=\"btn btn-danger btn-block\"></td>");
+	                        		out.write("</tr>");
+	                        		out.write("</form>");
+                        		}
+                        	}
+                        
+                        
+                        %>
+                        </tbody>
+                        </table>
 					
-					<a class="btn btn-success btn-block" href="#">MODIFICAR</a>
-				  </form>
+					
 				</div>
 			  </div>
 			</div>
+			<!-- Panel de eliminar usuario -->
+			
+
 			<!-- FIN PANEL DE ELIMINAR USUARIO -->
+			
 			
 			
           </div>
@@ -211,7 +322,7 @@
         <footer class="sticky-footer">
           <div class="container my-auto">
             <div class="copyright text-center my-auto">
-              <span>Copyright ©</span>
+              <span>Copyright Â©</span>
             </div>
           </div>
         </footer>
@@ -244,47 +355,35 @@
     
     <script>
 	
+    	function mostrarGrupo(){
+    		document.getElementById("principal0").style.display = "block";
+			document.getElementById("principal1").style.display = "none";
+			document.getElementById("principal2").style.display = "none";
+			document.getElementById("principal3").style.display = "none";
+    	}
 		function mostrarAlta(){
-			console.log("Dar de Alta");
+			document.getElementById("principal0").style.display = "none";
 			document.getElementById("principal1").style.display = "block";
 			document.getElementById("principal2").style.display = "none";
 			document.getElementById("principal3").style.display = "none";
 		}
 		
 		function mostrarBaja(){
+			document.getElementById("principal0").style.display = "none";
 			document.getElementById("principal1").style.display = "none";
 			document.getElementById("principal2").style.display = "block";
 			document.getElementById("principal3").style.display = "none";
 		}
 		
-		function mostrarModificar(){
+		function mostrarAyuda(){
+			document.getElementById("principal0").style.display = "none";
 			document.getElementById("principal1").style.display = "none";
 			document.getElementById("principal2").style.display = "none";
 			document.getElementById("principal3").style.display = "block";
 		}
- 
-		function solicitarDatos(){
-			<%
-				Facade fachada = new Facade();
-				String email = request.getParameter("email3");
-				
-				UsuarioVO usuarioBuscado = null;
-				if(email != null){
-					usuarioBuscado = new UsuarioVO();
-					usuarioBuscado = fachada.obtenerUsuario(email);
-					usuarioBuscado.getYear();
-				}else{
-					usuarioBuscado = new UsuarioVO("", "", 0, "", 0, 0, 0);
-				}
-			%>
-			 var name ="<%=usuarioBuscado.getName()%>";
-			 var anyo ="<%=usuarioBuscado.getYear()%>"; 
-			 document.getElementById("name2").value = name;
-			 document.getElementById("edad2").value = anyo;
-		}
-	
-	</script>
+		
 
+	</script>
 
 </body>
 </html>

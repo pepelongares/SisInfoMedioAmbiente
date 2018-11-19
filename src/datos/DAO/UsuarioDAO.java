@@ -358,7 +358,41 @@ public class UsuarioDAO {
 		 return result;
 	 }
 
-	 
+	 /*
+     * Devuelve verdad si y solo si el usuario ha contestado el cuestionario de tipo 'tipo'
+     * relativo a la entrada idEntrada	
+     */
+	 public static List<UsuarioVO> consigueUsuarios(Connection conexion) {
+		 String query = "SELECT * FROM usuario";
+		 
+		 List<UsuarioVO> result = new ArrayList<UsuarioVO>();
+		 
+		 try {
+			 PreparedStatement ps = conexion.prepareStatement(query);
+			 
+    		 
+    		 // Realizar busqueda
+    		 ResultSet rs = ps.executeQuery();
+    		 
+    		 // Si no ha podido registrarse, es por que algun parametro es incorrecto
+    		 while(rs.next()) {
+    			 UsuarioVO usuarioAux = new UsuarioVO();
+                 usuarioAux.setName(rs.getString("nombre"));
+                 usuarioAux.setEmail(rs.getString("correo"));
+                 usuarioAux.setYear(rs.getInt("nacimiento"));
+                 usuarioAux.setRol(rs.getInt("rol"));
+                 usuarioAux.setPuntuation(rs.getInt("puntuacion"));
+                 result.add(usuarioAux);
+    		 }
+		 }catch(SQLException se) {
+    		 se.printStackTrace(); 
+    	 }catch(Exception e) {
+    		 e.printStackTrace(System.err);
+    	 }
+		 
+		 return result;
+	 }
+
 		 
 	 
 }

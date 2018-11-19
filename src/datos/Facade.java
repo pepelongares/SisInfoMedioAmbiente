@@ -8,11 +8,13 @@ import java.util.Comparator;
 import java.util.List;
 
 import datos.BD.GestorConexionesJava;
+import datos.DAO.ContestarDAO;
 import datos.DAO.CuestionarioDAO;
 import datos.DAO.EntradaDAO;
 import datos.DAO.GrupoDAO;
 import datos.DAO.RespuestaDAO;
 import datos.DAO.UsuarioDAO;
+import datos.VO.ContestarVO;
 import datos.VO.CuestionarioVO;
 import datos.VO.EntradaVO;
 import datos.VO.GrupoVO;
@@ -28,6 +30,39 @@ public class Facade {
 		try {
 			conexion = GestorConexionesJava.getConnection();
 			result = UsuarioDAO.eliminarUsuario(correo, conexion);
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	
+	public List<UsuarioVO> obtenerUsuarios() throws SQLException{
+		Connection conexion = null;
+		List<UsuarioVO> result = new ArrayList<UsuarioVO>();
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = UsuarioDAO.consigueUsuarios(conexion);
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	public List<GrupoVO> obtenerGrupos() throws SQLException{
+		Connection conexion = null;
+		List<GrupoVO> result = new ArrayList<GrupoVO>();
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = GrupoDAO.consigueGrupos(conexion);
 			
 		}catch (Exception e) {
 			e.printStackTrace(System.err);
@@ -76,6 +111,70 @@ public class Facade {
 		try {
 			conexion = GestorConexionesJava.getConnection();
 			result = UsuarioDAO.anyadirUsuario(usuario, conexion);
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	public boolean anyadirGrupo(String nombre) throws SQLException {
+		Connection conexion = null;
+		boolean result = false;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = GrupoDAO.anyadirGrupo(nombre, conexion);
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	public boolean borrarGrupo(int id) throws SQLException {
+		Connection conexion = null;
+		boolean result = false;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = GrupoDAO.borrarGrupo(id, conexion);
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	public boolean borrarContestaciones(String correo) throws SQLException {
+		Connection conexion = null;
+		boolean result = false;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = ContestarDAO.borrarContestacion(correo, conexion);
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	}
+	
+	public boolean modificarUsuario(UsuarioVO user) throws SQLException {
+		Connection conexion = null;
+		boolean result = false;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = UsuarioDAO.modificarUsuario(user.getEmail(), user, conexion);
 			
 		}catch (Exception e) {
 			e.printStackTrace(System.err);
@@ -367,6 +466,20 @@ public class Facade {
 		try {
 			conexion = GestorConexionesJava.getConnection();
 			result = EntradaDAO.obtenerUltimoID(conexion);
+		}catch(Exception e){
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		return result;
+	}
+	
+	public boolean contestar(ContestarVO contesta) throws SQLException {
+		Connection conexion = null;
+		boolean result = false;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = ContestarDAO.anyadirContestacion(contesta,conexion);
 		}catch(Exception e){
 			e.printStackTrace(System.err);
 		}finally {

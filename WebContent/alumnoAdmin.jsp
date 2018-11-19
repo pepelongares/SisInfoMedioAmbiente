@@ -112,7 +112,7 @@
 		  				out.write("<strong>¡Conseguido!</strong> La entrada se ha registrado correctamente.");
 		  				out.write("</div>");
 					}else if(value.equals("false")){
-						out.write("<div class=\"alert alert-error alert-dismissible\">");
+						out.write("<div class=\"alert alert-danger alert-dismissible\">");
 						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
 		  				out.write("<strong>¡Error!</strong> No se ha podido registrar la noticia.");
 		  				out.write("</div>");

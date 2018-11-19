@@ -62,12 +62,14 @@ public class LoginServlet extends HttpServlet {
 			
 			UsuarioVO usuario = fachada.buscarUsuario(correo, pass);
 			if(usuario != null) {
-				if(usuario.getRol() == 0) // Si es administrador
-					request.getRequestDispatcher( "admin.jsp" ).forward( request, response );
-				else {
+				Cookie cookiee = new Cookie("email",correo);
+		        Cookie cookiep = new Cookie("password",pass);
+				if(usuario.getRol() == 0) { // Si es administrador					
+					response.addCookie(cookiee);
+				    response.addCookie(cookiep);
+					response.sendRedirect("admin.jsp");
+				}else {
 					// Guardamos las cookies
-					Cookie cookiee = new Cookie("email",correo);
-			        Cookie cookiep = new Cookie("password",pass);
 			        response.addCookie(cookiee);
 			        response.addCookie(cookiep);
 			        request.setAttribute("user", correo);

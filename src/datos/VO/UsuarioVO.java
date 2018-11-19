@@ -39,6 +39,7 @@ public class UsuarioVO {
 
 
 
+
 	public UsuarioVO() {
 		super();
 	}

@@ -88,7 +88,12 @@ public class RegistrarUsuario extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("LoginServlet");
 			request.setAttribute("emailLogin", usuario.getEmail());
 			request.setAttribute("passWordLogin", usuario.getPassword());
-			rd.forward(request,response);
+			if(grupo == null || rol == null) {	// Usuario externo
+				rd.forward(request,response);
+			}else {
+				response.sendRedirect("admin.jsp?res=1");
+			}
+			
 			//response.sendRedirect("index.jsp"); // De momento de depuracion, deberia salir una pagina personalizada
 		}else { // No ha podido registrarse, algun campo incorrecto, o ya existe
 			

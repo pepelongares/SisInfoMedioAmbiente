@@ -168,6 +168,33 @@ public class GrupoDAO {
 		 return result;
 	}
 
+	/*
+	 * Busca el grupo si existe en la base de datos. Si es cierto, devuelve los datos
+	 */
+	public static List<GrupoVO> consigueGrupos(Connection conexion) {
+		String query = "SELECT * FROM grupo";
+		 
+		List<GrupoVO> result = new ArrayList<GrupoVO>();
+		 
+		 try {
+			 PreparedStatement ps = conexion.prepareStatement(query);
+   		 
+			 // Buscar
+			 ResultSet rs = ps.executeQuery();
+   		 
+			 while(rs.next()) {
+				 result.add(new GrupoVO(rs.getInt("id"), rs.getString("nombre")));
+			 }
+			 
+			 
+		 }catch(SQLException se) {
+			 se.printStackTrace(); 
+		 }catch(Exception e) {
+			 e.printStackTrace(System.err);
+		 }
+		 
+		 return result;
+	}
 			 
 	 
 }
