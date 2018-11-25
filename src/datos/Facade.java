@@ -1,5 +1,6 @@
 package datos;
 
+import java.io.File;
 import java.sql.*;
 
 import java.util.ArrayList;
@@ -488,6 +489,244 @@ public class Facade {
 		return result;
 	}
 	
+	/*
+     * Veces contestada a una determinada respuesta 
+     */
+    public int vecesContestadaConcreta(RespuestaVO respuesta) throws SQLException {
+   	 Connection conexion = null;
+		int  result  = 0;
+		try {
+			conexion =  GestorConexionesJava.getConnection();
+			result = ContestarDAO.numContConcreto(respuesta, conexion);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			conexion.close();
+			System.out.println("Cerramos conexion con BD...");
+		}
+		return result;
+    }
+    
+    /*
+ 	 * Bolu:obtiene un grupo a partir del id.Se puede mejorar?
+ 	 */
+ 	public GrupoVO obtenerGrupo(int id) throws SQLException {
+ 		GrupoVO result = new GrupoVO();
+ 		result.setId(id);
+ 		Connection conexion = null;
+ 		try {
+ 			// Intentamos la conexion
+ 			System.out.println("Conectamos con BD2...");
+ 		     conexion = GestorConexionesJava.getConnection();
+ 		     result = GrupoDAO.buscarGrupo(result, conexion);
+ 		     
+ 		     
+ 		}
+ 		catch(SQLException e) {
+ 			e.printStackTrace(System.err);
+ 		}finally {
+			conexion.close();
+			System.out.println("Cerramos conexion con BD...");
+		}
+ 		
+ 		return result;
+ 		
+ 	}
+
+	public List<EntradaVO> obtenerTodasEntradas() throws SQLException{
+ 		List<EntradaVO> result = new ArrayList<EntradaVO>();
+ 		Connection conexion = null;
+ 		try {
+ 			// Intentamos la conexion
+ 			System.out.println("Conectamos con BD2...");
+ 		     conexion = GestorConexionesJava.getConnection();
+ 		     result = EntradaDAO.obtenerEntradas(conexion);
+ 		     
+ 		     System.out.println("Cerramos conexion con BD...");
+ 		}
+ 		catch(SQLException e) {
+ 			e.printStackTrace(System.err);
+ 		}finally {
+			conexion.close();
+		}
+ 		
+ 		
+ 		return result;
+ 	}
+
+	/*
+	 * Bolu:Obtiene las entradas publicadas(Se puede mejorar
+	 */
+	public List<EntradaVO> entradasPublicas() throws SQLException{
+		List<EntradaVO> result = new ArrayList<EntradaVO>();
+		Connection conexion = null;
+		try {
+			// Intentamos la conexion
+			System.out.println("Conectamos con BD2...");
+		     conexion = GestorConexionesJava.getConnection();
+		     result = EntradaDAO.obtenerEntradasPublicas(conexion);
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+			System.out.println("Cerramos conexion con BD...");
+		}
+		return result;
+	}
 	
+	/*
+	 * Bolu:Obtiene las entradas publicadas(Se puede mejorar
+	 */
+	public List<String> obtenerAcertantes() throws SQLException{
+		List<String> result = new ArrayList<String>();
+		Connection conexion = null;
+		try {
+			// Intentamos la conexion
+			System.out.println("Conectamos con BD2...");
+		     conexion = GestorConexionesJava.getConnection();
+		     List<EntradaVO> entrada = getEntradasPrimeras(0);
+		     result = ContestarDAO.obtenerUsuariosCorrectos(entrada.get(0).getId(), conexion);
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+			System.out.println("Cerramos conexion con BD...");
+		}
+		return result;
+	}
+	
+	/*
+	 *Modera entrada
+	 */
+     public boolean  modificaEstadoEntrada(int id,int estadoEntrada ) throws SQLException {
+		Connection conexion = null;
+		boolean result  = false;
+		try {
+			conexion =  GestorConexionesJava.getConnection();
+			result = EntradaDAO.modificarEntrada(id,estadoEntrada,conexion);
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			conexion.close();
+			System.out.println("Cerramos conexion con BD...");
+		}
+		return result;
+	}
+     
+     /*
+ 	 *Modera entrada
+ 	 */
+      public boolean  sumarPuntos(String correo) throws SQLException {
+ 		Connection conexion = null;
+ 		boolean result  = false;
+ 		try {
+ 			conexion =  GestorConexionesJava.getConnection();
+ 			result = UsuarioDAO.sumarPuntos(correo, 3, conexion);
+ 		}
+ 		catch(SQLException e) {
+ 			e.printStackTrace();
+ 		}finally {
+ 			conexion.close();
+ 			System.out.println("Cerramos conexion con BD...");
+ 		}
+ 		return result;
+ 	}
+     
+     public int vecesContestado(int id,int tipoCuestionario) throws SQLException{
+         Connection conexion = null;
+         int result  = 0;
+         try {
+           conexion =  GestorConexionesJava.getConnection();
+           result = ContestarDAO.numContestaciones(id,tipoCuestionario,conexion);
+         }
+         catch(SQLException e) {
+           e.printStackTrace();
+         }finally {
+           conexion.close();
+           System.out.println("Cerramos conexion con BD...");
+         }
+         return result;
+        
+      }
+     
+     /**
+ 	 * @throws SQLException 
+ 	 */
+ 	public EntradaVO getDatosEntrada(int idEntrada) throws SQLException{
+ 		
+ 		Connection conexion = null;
+ 		EntradaVO result = null;
+ 		try {
+ 			conexion = GestorConexionesJava.getConnection();
+ 			result = EntradaDAO.obtenerEntradaUnica(idEntrada, conexion);
+ 			
+ 		}catch(Exception e) {
+ 			e.printStackTrace(System.err);
+ 		}finally {
+ 			conexion.close();
+ 		}
+ 		
+ 		return result;
+ 	}
+ 	
+ 	public boolean modificarEntrada(int idEntrada, EntradaVO entrada) throws SQLException {
+		Connection conexion = null;
+		boolean result = false;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = EntradaDAO.modificarEntrada(idEntrada,entrada, conexion);
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	} 
+ 	
+ 	public boolean eliminarEntradaAlumno(int idEntrada, String pathFile) throws SQLException {
+		Connection conexion = null;
+		boolean result = false;
+		String imagenAux = new String();
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = RespuestaDAO.borrarRespuesta(idEntrada, conexion);
+			if(result) {result = CuestionarioDAO.borrarCuestionario(idEntrada, conexion);}
+			if(result) {imagenAux = EntradaDAO.obtenerImagenEntrada(idEntrada, conexion);
+				File fileAux = new File(pathFile + imagenAux);
+				result = fileAux.delete();
+			}		
+			if(result) {result = EntradaDAO.eliminarEntrada(idEntrada, conexion);}	
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+	} 
+ 	
+ 	public boolean modificarCuestionario(int idEntrada, int aciertos, int fallos) throws SQLException{
+ 		Connection conexion = null;
+		boolean result = false;
+		try {
+			conexion = GestorConexionesJava.getConnection();
+			result = CuestionarioDAO.cambiarCuestionario(idEntrada,aciertos,fallos, conexion);
+		}catch (Exception e) {
+			e.printStackTrace(System.err);
+		}finally {
+			conexion.close();
+		}
+		
+		return result;
+ 	}
+
 	
 }

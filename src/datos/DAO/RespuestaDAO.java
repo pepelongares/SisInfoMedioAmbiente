@@ -76,4 +76,37 @@ public class RespuestaDAO {
 
 		 return result;
 	}
+	
+	/**
+	 * Borra la respuesta de una entrada
+	 * @param idEntrada
+	 * @param conexion
+	 * @return
+	 */
+	public static boolean borrarRespuesta(int idEntrada, Connection conexion) {
+	     String query = "DELETE FROM respuesta WHERE idEntrada=?";
+
+	     boolean result = false;
+
+	     try {
+	      PreparedStatement ps = conexion.prepareStatement(query);
+	      ps.setInt(1, idEntrada);
+	      
+	      // Se ejecuta la qwery
+	      int rs = ps.executeUpdate();
+	      
+	      if(rs == 0) {
+	        throw new SQLException("ERROR: Algun parametro incorrecto");
+	      }else {
+
+	        result = true; 
+	      }
+	    }catch(SQLException se) {
+	      se.printStackTrace(); 
+	    }catch(Exception e) {
+	      e.printStackTrace(System.err);
+	    }
+
+	     return result;
+	  }
 }

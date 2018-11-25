@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import datos.VO.ContestarVO;
+import datos.VO.RespuestaVO;
 
 public class ContestarDAO {
 	
@@ -142,6 +143,80 @@ public class ContestarDAO {
         }
         return retVal;
     }
+    
+
+
+	/*
+	 * Obtiene numero de contestaciones de una respuesta
+	 */
+	public static int numContConcreto(RespuestaVO respuesta,Connection conexion) {
+		
+		int retVal = 0;
+		try{			  
+		     String query = "SELECT COUNT(*)  FROM contestar WHERE idEntrada = ? AND tipo = ? AND posPregunta = ? ";
+		  	 PreparedStatement ps = conexion.prepareStatement(query);
+		  	 ps.setInt(1,respuesta.getIdEntrada());
+		  	 ps.setInt(2, respuesta.getTipoCuestionario());
+		  	 ps.setInt(3, respuesta.getPosicion());
+	         ResultSet rs = ps.executeQuery();
+	         if(rs.next()) {
+	        	 retVal = rs.getInt(1);
+	        	 System.out.println("numero: "  + retVal);
+	         }
+	   }
+	   catch(SQLException e){
+	           e.printStackTrace();
+	   }			
+		return retVal;
+		
+	}
+
+	/*
+	 *Obtiene numero de contestaciones de un cuestionario
+	*/
+	public static int numContestaciones(int id,int tipo,Connection conexion) {
+	  
+	  int retVal = 0;
+	  try{        
+	     String query = "SELECT COUNT(*)  FROM contestar WHERE idEntrada = ? AND tipo = ? ";
+	     PreparedStatement ps = conexion.prepareStatement(query);
+	     ps.setInt(1,id);
+	     ps.setInt(2, tipo);
+	         ResultSet rs = ps.executeQuery();
+	         if(rs.next()) {
+	           retVal = rs.getInt(1);
+	         }
+	   }
+	   catch(SQLException e){
+	           e.printStackTrace();
+	   }      
+	return retVal;
+	  
+	}
+
+	/*
+	 * Devuelve los correos de la gente que ha contestado a esa pregunta con esa respuesta
+	 */
+	public static List <String> obtenerUsuariosCorrectos(int idEntrada,Connection conexion) {
+		
+		List<String> retVal = new ArrayList<String>();	
+		  try{			  
+		     String query = "SELECT DISTINCT correo FROM contestar cont, Cuestionario cuest WHERE cont.idEntrada= ? AND cuest.idEntrada = ? AND cuest.posCorrecta = cont.posPregunta";
+		  	 PreparedStatement ps = conexion.prepareStatement(query);
+		  	 ps.setInt(1, idEntrada);
+		  	 ps.setInt(2, idEntrada);
+		  	
+	          ResultSet rs = ps.executeQuery();
+	          while(rs.next()){
+	        	  retVal.add(rs.getString("correo")) ;
+	        }
+	      }
+	     catch(SQLException e){
+	             e.printStackTrace();
+	     }			
+		return retVal;
+	}
+
 	
 
 }

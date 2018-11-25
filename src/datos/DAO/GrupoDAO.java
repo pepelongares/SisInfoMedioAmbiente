@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.*;
 
 
-/* Une la clase de GrupoDao con la BD */
+
 public class GrupoDAO {
 
 	/*

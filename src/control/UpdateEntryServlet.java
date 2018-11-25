@@ -1,6 +1,5 @@
 package control;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,23 +19,29 @@ import datos.VO.EntradaVO;
 import datos.VO.GrupoVO;
 import datos.VO.RespuestaVO;
 
-@WebServlet("/UploadFileServlet")
+/**
+ * Servlet implementation class UpdateEntryServlet
+ */
+@WebServlet("/UpdateEntryServlet")
 @MultipartConfig(fileSizeThreshold=1024*1024*10, 	// 10 MB 
-                 maxFileSize=1024*1024*50,      	// 50 MB
-                 maxRequestSize=1024*1024*100)   	// 100 MB
-public class UploadFileServlet extends HttpServlet {
- 
-    private static final long serialVersionUID = 205242440643911308L;
-	
+maxFileSize=1024*1024*50,      	// 50 MB
+maxRequestSize=1024*1024*100)   	// 100 MB
+public class UpdateEntryServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
     /**
-     * Directory where uploaded files will be saved, its relative to
-     * the web application directory.
+     * @see HttpServlet#HttpServlet()
      */
+    public UpdateEntryServlet() {
+        super();
+    }
+    
     private static final String UPLOAD_DIR = "img/";
-     
-    protected void doPost(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
-    	try {
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
     		request.setCharacterEncoding("UTF-8");
     		// Parametros necesarios
         	
@@ -46,6 +51,7 @@ public class UploadFileServlet extends HttpServlet {
     		String blog_body = request.getParameter("blog_body");
     		String blog_advice = request.getParameter("blog_advice");
     		String blog_challenge = request.getParameter("blog_challenge");
+    		System.out.println(blog_body);
     		
     		String q1_question = request.getParameter("cuestionario1");
     		String[] q1_answer = new String[5];
@@ -63,11 +69,13 @@ public class UploadFileServlet extends HttpServlet {
     		q2_answer[2] = request.getParameter("respuesta2.3");
     		q2_answer[3] = request.getParameter("respuesta2.4");
     		
-    		System.out.println("Contendio de q2 =" +q2_answer[3]);
-  
+    		String idAux = request.getParameter("idEntrada");
+    		int idEntrada = Integer.parseInt(idAux);
+    		
     		// Conseguimos el path del servidor y construimos el path donde guardar la imagen
     		String applicationPath = request.getServletContext().getRealPath("");
             String uploadFilePath = applicationPath + File.separator + UPLOAD_DIR;
+            System.out.println(uploadFilePath);
             
     		// Creamos un objeto fachada con el que rellenar los objetos necesarios para crear una nueva entrada
     		Facade fachada = new Facade();
@@ -75,17 +83,15 @@ public class UploadFileServlet extends HttpServlet {
     		GrupoVO grupoUsuario = new GrupoVO();
     		grupoUsuario = fachada.getGrupoUsuario(email);
     		int idGrupo = grupoUsuario.getId();
-
-    	    int idEntrada = -1;
-    		idEntrada = fachada.getUltimoId();
        
             String fileName = null;
             String aux = null;
             //Get all the parts from request and write it to the file on server
             for (Part part : request.getParts()) {
             	fileName = getFileName(part);
+            	System.out.println(fileName);
             	if(fileName != "") {
-            		aux = "img" + Integer.toString(idEntrada+1) + fileName;
+            		aux = "img" + Integer.toString(idEntrada+1) + fileName.toLowerCase();
                     part.write(uploadFilePath + File.separator + aux);
             	}              
             }	
@@ -116,17 +122,13 @@ public class UploadFileServlet extends HttpServlet {
             
             
             EntradaVO entradaNueva = new EntradaVO(null, 0, idGrupo, blog_title, "img/"+ aux, blog_challenge, blog_advice,
-        			idEntrada+1, blog_body, c1, c2);
+        			idEntrada, blog_body, c1, c2);
             
-            boolean sucess = fachada.anyadirEntrada(entradaNueva);
-            int r;
-            if(sucess) {
-            	r = 1;
-            }else {
-            	r=-1;
-            }
+            boolean sucess = fachada.modificarEntrada(idEntrada,entradaNueva);
+            int result = -1;
+            if(sucess) {result = 3;}
             
-            request.setAttribute("sucess", String.valueOf(r));
+            request.setAttribute("sucess", String.valueOf(result));
             request.getRequestDispatcher("alumnoAdmin.jsp").forward(request, response);
     	}catch (Throwable theException) {
     		
@@ -134,6 +136,14 @@ public class UploadFileServlet extends HttpServlet {
     	
     }
  
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+	
     /**
      * Utility method to get file name from HTTP header content-disposition
      */
@@ -143,10 +153,10 @@ public class UploadFileServlet extends HttpServlet {
         for (String token : tokens) {
             if (token.trim().startsWith("filename")) {
             	String aux = token.substring(token.indexOf("."), token.length()-1);
-            	return aux;
+            	return aux.toLowerCase();
             }
         }
         return "";
     }
-}
 
+}

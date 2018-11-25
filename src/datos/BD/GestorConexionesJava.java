@@ -7,7 +7,7 @@ public class GestorConexionesJava {
 
 	// JDBC nombre del driver y URL de BD
 	 private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	 private static final String DB_URL = "jdbc:mysql://localhost:3306/prueba?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+	 private static final String DB_URL = "jdbc:mysql://localhost:3306/SisInfo?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
 	 
 	 // Credenciales de la Base de Datos
 	 private static final String USER = "username";

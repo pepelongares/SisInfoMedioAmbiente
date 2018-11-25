@@ -93,6 +93,7 @@
                     <span>Administrar</span>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+                    <a class="dropdown-item" href="#" onclick="mostrarAyuda()">Ayuda</a>
                     <a class="dropdown-item" href="#" onclick="mostrarSubirNoticia()">Subir entrada</a>
                     <a class="dropdown-item" href="#" onclick="mostrarCartelesPropios()">Tus carteles</a>
                 </div>
@@ -104,25 +105,60 @@
         <div class="container-fluid">
 
 			<%
-				String value = (String)request.getAttribute("sucess");
-				if(value != null){
-					if(value.equals("true")){
+				// Zona de pop-ups de aviso (faltan los de borrar y modificar entrada)
+				String mensajeAlarma = (String)request.getAttribute("sucess");
+				if(mensajeAlarma != null){
+					if(mensajeAlarma.equals("1")){
 						out.write("<div class=\"alert alert-success alert-dismissible\">");
 						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
 		  				out.write("<strong>¡Conseguido!</strong> La entrada se ha registrado correctamente.");
 		  				out.write("</div>");
-					}else if(value.equals("false")){
+					}else if(mensajeAlarma.equals("2")){
+						out.write("<div class=\"alert alert-success alert-dismissible\">");
+						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
+		  				out.write("<strong>¡Conseguido!</strong> La entrada se ha eliminado correctamente.");
+		  				out.write("</div>");
+					}else if(mensajeAlarma.equals("3")){
+						out.write("<div class=\"alert alert-success alert-dismissible\">");
+						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
+		  				out.write("<strong>¡Conseguido!</strong> La entrada se ha modificado correctamente.");
+		  				out.write("</div>");
+					}else{
 						out.write("<div class=\"alert alert-danger alert-dismissible\">");
 						out.write("<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>");
-		  				out.write("<strong>¡Error!</strong> No se ha podido registrar la noticia.");
+		  				out.write("¡Se ha producido un <strong>error</strong> al procesar tu solicitud!");
 		  				out.write("</div>");
-					}	
+					}
 				}
 			%>
 			
 			
           <!-- Principal-->
           <div class="row" id="principal">
+          
+          <!-- Panel de Ayuda -->
+          <div class="container" id="ayuda" style="display:block;">
+				<div class="card card-register mx-auto mt-5">
+				<div class="card-header">Ayuda</div>
+				<div class="card-body">
+					<div class="form-group">
+						  <div class="form-label-group">
+							<h2 align="center">Bienvenido al panel de administración del alumno</h2>
+							<h6>Desde el panel izquierdo se pueden realizar todas las acciones de administración de los carteles de tu grupo</h6>
+							<hr>
+							<ul>
+							<li>Ayuda: Muestra este panel</li>
+							<li>Subir entrada: Permite crear una nueva entrada para la web</li>
+							<li>Tus carteles: Permite observar el estado de tus carteles, modificarlos o eliminarlos</li>
+							</ul>
+						  </div>
+					</div>
+				</div>
+			  </div>
+			  <br/>
+			  
+			  
+			</div> 
           
 			<!-- Panel de Subir Cartel -->
 				<div class="container" id="subirCartel" style="display:none;">
@@ -262,7 +298,7 @@
 										out.write("<img class=\"img-thumbnail\" src=\""+entrada.getUrlImagen()+"\">");
 										out.write("</a>");
 									out.write("</div>");
-									out.write("<div class=\"col-lg-6\">");
+									out.write("<div class=\"col-lg-5\">");
 										out.write("<a href=\"entrada.jsp?id="+entrada.getId()+"\">");
 										out.write("<h3 class=\"post-title\">");
 										out.write(entrada.getTitulo());
@@ -272,8 +308,24 @@
 									out.write("<div class=\"col-lg-2\">");
 									switch(entrada.getEstado()){
 										case 1: out.write("<button type=\"button\" class=\"btn btn-success\" disabled>Aceptado</button>"); break;
-										case 2: out.write("<button type=\"button\" class=\"btn btn-danger\" disabled>Rechazado</button>"); break;
-										default: out.write("<button type=\"button\" class=\"btn btn-secondary\" disabled>En revisión</button>"); break;
+										case 2: 
+											out.write("<button type=\"button\" class=\"btn btn-danger\" disabled>Rechazado</button>"); 
+											out.write("</div>");
+											out.write("<form class=\"form\" action =\"DeleteEntryServlet\" method=\"post\" role=\"form\" accept-charset=\"UTF-8\" id=\"borrarEntrada\">");
+											out.write("<div class=\"col-lg-1\">");
+											out.write("<input type=\"text\" class=\"form-control\" name=\"idEntrada\" style=\"display:none\" value=\""+entrada.getId()+"\">");
+											out.write("<button type=\"submit\" class=\"btn btn-danger\"><i class=\"far fa-trash-alt\"></i></button>");
+											out.write("</form>");
+											break;
+										default: 
+											out.write("<button type=\"button\" class=\"btn btn-secondary\" disabled>En revisión</button>"); 
+											out.write("</div>");
+											out.write("<form class=\"form\" action =\"getEntradaServlet\" method=\"post\" role=\"form\" accept-charset=\"UTF-8\" id=\"modificarEntrada\">");
+											out.write("<div class=\"col-lg-1\">");
+											out.write("<input type=\"text\" class=\"form-control\" name=\"idEntrada\" style=\"display:none\" value=\""+entrada.getId()+"\">");
+											out.write("<button type=\"submit\" class=\"btn btn-warning\"><i class=\"far fa-edit style=\"color:white\"\"></i></button>");
+											out.write("</form>");
+											break;
 									}
 									out.write("</div>");
 								out.write("</div>");
@@ -357,21 +409,26 @@
 	$(function() {
 		bs_input_file();
 	});
-	
+		
+		function mostrarAyuda(){
+			document.getElementById("subirCartel").style.display = "none";
+			document.getElementById("verCarteles").style.display = "none";
+			document.getElementById("ayuda").style.display = "block";
+		}
 	
 		function mostrarSubirNoticia(){
-		    console.log("holi");
 			document.getElementById("subirCartel").style.display = "block";
 			document.getElementById("verCarteles").style.display = "none";
+			document.getElementById("ayuda").style.display = "none";
 		}
 
 		function mostrarCartelesPropios(){
 			document.getElementById("verCarteles").style.display = "block";
 			document.getElementById("subirCartel").style.display = "none";
+			document.getElementById("ayuda").style.display = "none";
 		}
 		
 		function actualizarInput(){
-			console.log("Holi");
 			document.getElementById("labelInput").innerText = document.getElementById("customFile").files[0].name;
 			
 		}

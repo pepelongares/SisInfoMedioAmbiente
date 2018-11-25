@@ -84,4 +84,74 @@ public class CuestionarioDAO {
 		 return result;
 	}
 	
+	/**
+	 * Borra el cuestionario
+	 * @param idEntrada
+	 * @param conexion
+	 * @return
+	 */
+	public static boolean borrarCuestionario(int idEntrada, Connection conexion) {
+	     String query = "DELETE FROM cuestionario WHERE idEntrada=?";
+
+	     boolean result = false;
+
+	     try {
+	      PreparedStatement ps = conexion.prepareStatement(query);
+	      ps.setInt(1, idEntrada);
+	      
+	      // Se ejecuta la qwery
+	      int rs = ps.executeUpdate();
+	      
+	      if(rs == 0) {
+	        throw new SQLException("ERROR: Algun parametro incorrecto");
+	      }else {
+
+	        result = true; 
+	      }
+	    }catch(SQLException se) {
+	      se.printStackTrace(); 
+	    }catch(Exception e) {
+	      e.printStackTrace(System.err);
+	    }
+
+	     return result;
+	  }
+	
+	/**
+	 * Cambia el cuestionario
+	 * @param idEntrada
+	 * @param aciertos
+	 * @param fallos
+	 * @param conexion
+	 * @return
+	 */
+	public static boolean cambiarCuestionario(int idEntrada, int aciertos, int fallos, Connection conexion) {
+	     String query = "UPDATE cuestionario SET numAciertos= ?, numFallos=? WHERE idEntrada = ?";
+
+	     boolean result = false;
+
+	     try {
+	      PreparedStatement ps = conexion.prepareStatement(query);
+	      ps.setInt(1, aciertos);
+	      ps.setInt(2, fallos);
+	      ps.setInt(3, idEntrada);
+	      
+	      // Se ejecuta la qwery
+	      int rs = ps.executeUpdate();
+	      
+	      if(rs == 0) {
+	        throw new SQLException("ERROR: Algun parametro incorrecto");
+	      }else {
+
+	        result = true; 
+	      }
+	    }catch(SQLException se) {
+	      se.printStackTrace(); 
+	    }catch(Exception e) {
+	      e.printStackTrace(System.err);
+	    }
+
+	     return result;
+	  }
+	
 }

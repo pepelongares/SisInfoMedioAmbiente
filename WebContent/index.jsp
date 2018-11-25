@@ -89,12 +89,14 @@
             	int tipo = fachada.consigueTipo(login);
             	if(tipo == 1){	// Profesor
             		out.write("<li class=\"nav-item\">");
-                	out.write("<a class=\"nav-link\" href=\"#\">Gestionar Carteles</a>");
+                	out.write("<a class=\"nav-link\" href=\"ProfesorAdmin.jsp\">Gestionar Carteles</a>");
                 	out.write("</li>");	
             	}else if(tipo == 2){	//alumno
             		out.write("<li class=\"nav-item\">");
                 	out.write("<a class=\"nav-link\" href=\"alumnoAdmin.jsp\">Subir Cartel</a>");
                 	out.write("</li>");
+            	}else if(tipo == 3){	// Externo
+            		
             	}else{			// Admin
             		out.write("<li class=\"nav-item\">");
                 	out.write("<a class=\"nav-link\" href=\"admin.jsp\">Administrar</a>");
@@ -213,7 +215,7 @@
 					out.write("<div class=\"row\">");
 					out.write("<div class=\"col-lg-3\">");
 					out.write("<a class=\"thumbnail\" href=\"CargarEntrada?id="+ entrada.getId() + "\">");
-					out.write("<img class=\"img-thumbnail\" src="+entrada.getUrlImagen()+  " \">");
+					out.write("<img class=\"img-thumbnail\" alt=\"" + entrada.getTitulo() +"\" src="+entrada.getUrlImagen()+  " \">");
 					out.write("</a>");
 					out.write("</div>");
 					out.write("<div class=\"col-lg-9\">");

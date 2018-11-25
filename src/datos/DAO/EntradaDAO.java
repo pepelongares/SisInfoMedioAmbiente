@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,11 @@ import datos.VO.UsuarioVO;
 
 public class EntradaDAO {
 	
+	/**
+	 * Devuelve el numero de entradas que existen
+	 * @param conexion
+	 * @return
+	 */
 	public static int numEntradas(Connection conexion) {
 		String query = "SELECT COUNT(*) FROM Entrada";
 		int result = 0;
@@ -41,7 +47,7 @@ public class EntradaDAO {
 	 * @return
 	 */
 	public static List<Integer> obtenerIdsEntradas(Connection conexion) {
-		String query = "SELECT id FROM Entrada ORDER BY fecha DESC";
+		String query = "SELECT DISTINCT id FROM Entrada WHERE estado=1 ORDER BY fecha DESC";
 		List<Integer> result = new ArrayList<Integer>();
 		
 		try {
@@ -353,6 +359,11 @@ public class EntradaDAO {
 		 return result;
 	}
 	
+	/**
+	 * Devuelve el id de la ultima entrada
+	 * @param conexion
+	 * @return
+	 */
 	public static int obtenerUltimoID(Connection conexion) {
 		String query = "SELECT id FROM Entrada ORDER BY id DESC LIMIT 1";
 		int result = -1;
@@ -373,5 +384,99 @@ public class EntradaDAO {
 		return result;
 		
 	}
+	
+	/*
+	 * Modera el estado de la entrada
+	 */
+	public static boolean modificarEntrada(int id, int estado, Connection conexion) {
+		 String query = "UPDATE entrada SET estado= ?, fecha=? WHERE id = ?";
+
+		 boolean result = false;
+
+		 try {
+			PreparedStatement ps = conexion.prepareStatement(query);
+			Date date = Date.valueOf(LocalDate.now());
+			
+			ps.setInt(1, estado);
+			ps.setDate(2, date);
+			ps.setInt(3, id);
+
+
+			// Se ejecuta la adicion
+			int rs = ps.executeUpdate();
+			
+			// Si no ha podido registrarse, es por que algun parametro es incorrecto
+			if(rs == 0) {
+				throw new SQLException("ERROR: Algun parametro incorrecto");
+			}else { //Si ha podido registrarse, devuelve el mismo objeto
+				result = true; 
+			}
+		}catch(SQLException se) {
+			se.printStackTrace(); 
+		}catch(Exception e) {
+			e.printStackTrace(System.err);
+		}
+
+		 return result;
+	}
+	
+	/**
+	 * Deveuvle una lista con todas las entradas publicadas
+	 * @param conexion
+	 * @return
+	 */
+	public static List<EntradaVO> obtenerEntradasPublicas(Connection conexion){
+	    String query = "SELECT * FROM Entrada WHERE estado = 1 ORDER BY fecha DESC ";
+	    
+	    List<EntradaVO> result = new ArrayList<EntradaVO>(); //Lista
+	    
+	    try {
+	      PreparedStatement ps = conexion.prepareStatement(query);
+
+	      ResultSet rs = ps.executeQuery(); //Se ejecuta la query
+	      
+	      EntradaVO entrada = null;
+	      while(rs.next()) {
+	        entrada = new EntradaVO(rs.getDate("fecha"), rs.getInt("estado"), rs.getInt("idGrupo"), rs.getString("titulo"), 
+	            rs.getString("nombreImagen"), rs.getString("reto"), rs.getString("consejo"),
+	            rs.getInt("id"), rs.getString("noticia"), null, null);
+	        
+	        result.add(entrada);
+	      }
+	    }catch(SQLException se) {
+	          se.printStackTrace(); 
+	        }catch(Exception e) {
+	          e.printStackTrace(System.err);
+	        }
+	    return result;
+	  }
+	
+	/**
+	 * Obtiene la imagen de la entrada
+	 * @param idEntrada
+	 * @param conexion
+	 * @return
+	 */
+	public static String obtenerImagenEntrada(int idEntrada, Connection conexion) {
+	    String query = "SELECT nombreImagen FROM entrada WHERE id=?";
+	    String result = new String();
+	    
+	    try {
+	      PreparedStatement ps = conexion.prepareStatement(query);
+	      ps.setInt(1, idEntrada);
+	      
+	      ResultSet rs = ps.executeQuery(); //Se ejecuta la query
+	      
+	      if(rs.next()) {
+	        result = rs.getString(1);
+	      }
+	    }catch(SQLException se) {
+	          se.printStackTrace(); 
+	        }catch(Exception e) {
+	          e.printStackTrace(System.err);
+	        }
+	    return result;
+	  }
+	
 
 }

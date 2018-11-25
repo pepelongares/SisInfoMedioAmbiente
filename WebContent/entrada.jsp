@@ -76,8 +76,8 @@
 			System.out.println(fachada.getGrupoUsuario(login));
 			pregunta = fachada.consigueCuestionario(entrada.getId(), 0);
 			opinion = fachada.consigueCuestionario(entrada.getId(), 1);
-			respOpinion = fachada.obtenerRespuestas(entrada.getId(), 0);
-			respPregunta = fachada.obtenerRespuestas(entrada.getId(), 1);
+			respOpinion = fachada.obtenerRespuestas(entrada.getId(), 1);
+			respPregunta = fachada.obtenerRespuestas(entrada.getId(), 0);
 			if(!login.equals("")){
 				haContestadoOpinion = fachada.haContestado(login, 1, entrada.getId());	// Opinion 1
 				haContestadoPregunta = fachada.haContestado(login,0, entrada.getId());	// Pregunta 0
@@ -195,7 +195,7 @@
 		  <div class="col-lg-8 col-md-10 mx-auto">
 		  	<%
 		  		if(entrada != null)
-		  		out.write("<img class=\"img-thumbnail\" src=\""+ entrada.getUrlImagen() + "\">");
+		  		out.write("<img class=\"img-thumbnail\" alt=\""+ entrada.getTitulo() +"\"src=\""+ entrada.getUrlImagen() + "\">");
 		  	%>
 		  </div>
           <div class="col-lg-8 col-md-10 mx-auto">
